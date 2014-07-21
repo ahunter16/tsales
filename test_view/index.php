@@ -9,6 +9,13 @@ include 'formula.php';
 include 'baserow.php';
 
 
+$page = substr($_SERVER['REQUEST_URI'], -1);
+$reredirect = 0;
+if ($page == "?")
+{
+	header("Location: redirect");
+	$reredirect = 1;
+}
 
 
 $bandwidths = array(10,20,30,40,50,100);
@@ -45,24 +52,27 @@ foreach ($bandwidths as $bw)
 		$comleteform = 1;
 		foreach ($basekeys as $bk)
 		{	//echo $bw;
-			if (empty($_POST[$bw.$bk]))
+			if ($bk != "Active_Base_ID" && $bk != "Base_ID" && $bk != "Last_Updated")
 			{
-				$completeform = 0;
-			}
-			else 
-			{
-				$baseformval[$bk] = $_POST[$bw.$bk];
+				if (is_null($_POST[$bw.$bk]))
+				{
+					echo "Warning; invalid value entered for ".$bw;
+
+				}
+				else 
+				{
+					$baseformval[$bk] = $_POST[$bw.$bk];
+				}
 			}
 		}
-		if ($completeform == 1);
-		{	
+
 			$testarray[$bw] = formfill($baseformval, $bw);
-		}
+		
 	}
 
-}	print_r($testarray);
-echo "TEST";
-
+}	/*print_r($testarray);
+echo "TEST";*/
+print_r($_POST);
 
 include 'form.html.php';
 function formfill($baseformval, $bw)
@@ -137,74 +147,3 @@ function formfill($baseformval, $bw)
 }
 
 
-
-
-/*$form = array();
-		$providers = array();
-		if ($_POST['ttbann'.$bw] != "") 
-		{
-			$form['ttb'] = $_POST['ttbann'.$bw];
-			$providers[] = 'ttb';
-		}
-
-		if ($_POST['btsann'.$bw] != "") 
-		{
-			$form['bts'] = $_POST['btsann'.$bw];
-			$providers[] = 'bts';
-
-		}
-
-		if ($_POST['btpann'.$bw] != "") 
-		{
-			$form['btp'] = $_POST['btpann'.$bw];
-			$providers[] = 'btp';
-		}
-
-		if ($_POST['eadann'.$bw] != "") 
-		{
-			$form['ead'] = $_POST['eadann'.$bw];
-			$providers[] = 'ead';
-			if ($_POST['eadins'.$bw] != "")
-			{
-				$providers [] = 'spd';
-				$form['spd'] = $_POST['eadann'.$bw];
-			}
-		}*/
-		/*echo "<br>Providers: ";
-		print_r($providers);
-		echo "<br>Formstuff:";
-		print_r($form);*/
-/*			$iterator = 0;
-			foreach ($form as $f)
-			{
-				$index = $providers[$iterator];
-				//echo $index;
-				if ($index == "bts" || $index == "btp")
-				{
-					$btcheck = True;
-				}
-				else
-				{
-					$btcheck = False;
-				}
-				if ($index == "ead" || $index == "spd")
-				{
-					$eadcheck = True;
-				}
-				else 
-				{
-					$eadcheck = False;
-				}
-				if ($index == "spd")
-				{
-					$spdcheck = True;
-				}
-				else 
-				{
-					$spdcheck = False;
-				}
-				$totalcost[$index] = calculate($basevals, $f //$cost, );
-				$btcheck = False;
-				//echo "it: ".$iterator;
-				$iterator += 1;
-			}*/

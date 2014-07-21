@@ -15,7 +15,9 @@
 		</iframe> -->
 		<form action = "" method = "post" id = "inputform">
 			<?php basevals(); ?>
-			<br><br>
+			<br>
+			<input action = "?" type = "submit" value = "Save" name = "savebases">
+			<br>
 
 			<table>
 

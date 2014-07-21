@@ -10,7 +10,7 @@ function calculate($base, $f /*$cost, */)
 	global $spdcheck;
 	global $btcheck;
 	global $bw;
-	//echo "formula: ".$bw;
+	/*echo "formula: ".$bw;*/
 	$cost = 0;
 	$discount = $base['Discount']/100;
 	$discount3 = $base['Discount']/100 + $base['3_Year_Discount']/100;

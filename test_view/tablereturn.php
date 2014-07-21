@@ -178,7 +178,7 @@ function table_populate($inputdata, $x)
 					}
 					else {$sub1 = '  -';}
 
-					echo'<td class = "'.$s.'i'.$ys.'">&pound '.$sub1.'</td>'."\n";
+					echo'<td id = "'.$s.$y1.$bdw.$x.'" class = "'.$s.'i'.$ys.'" onmouseenter = "cellhighlight(this)" onmouseleave = "cellunhighlight(this)">&pound '.$sub1.' </td>'."\n";
 				}
 			};
 		echo "</tr>";}
