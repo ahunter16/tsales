@@ -1,0 +1,137 @@
+table, th
+{
+	border: 1px solid black;
+	padding: 5px;
+}
+td
+{
+	border: 1px solid black;
+	padding: 5px;
+	width: 100px;
+}
+hr
+{
+	height: 2px;
+
+	color: rgb(0,0,100);
+}
+
+table 
+{
+	border-collapse: collapse;
+}
+input[type="text"]
+{
+	border:0px;
+	width:90px;
+}
+
+
+.marginhead
+{
+	width:120px;
+}
+
+.side 
+{
+	background: rgb(196, 189, 151);
+	width:120px;
+}
+.ttb
+{
+	background: rgb(79, 129, 189);
+}
+.bt
+{
+	background: rgb(155,187,89);
+}
+
+
+.ead
+{
+	background: rgb(128,100,162);
+}
+
+#title10mbs, #title20mbs, #title30mbs, #title40mbs, #title50mbs, #title100mbs
+{
+	font-weight:bold;
+}
+
+#title
+{
+	font-weight: bold;
+	font-size: 21px;
+}
+#basehist
+{
+	position:absolute;
+	left: 250px;
+	top: 10px;
+	width: 220px;
+	padding: 5px;
+	border: 3px solid gray;
+}
+#bases
+{
+	position: absolute;
+	left: 50px;
+	top: 150px;
+}
+
+.ttbi1
+{
+	background :rgb(184,204,228);
+	background-color: rgb(184,204,228);
+}
+
+.btsi1
+{
+	background: rgb(216, 228, 188);
+	background-color: b(216, 228, 188);
+}
+.btpi1
+{
+	background: rgb(216, 228, 188);
+	background-color: b(216, 228, 188);
+}
+
+.eadi1
+{
+	background: rgb(204,192,218);
+	background-color: rgb(204,192,218);
+}
+.ttbi3
+{
+	background: rgb(220,230,241);
+	background-color: rgb(220,230,241);
+}
+.btsi3
+{
+	background: rgb(235,241,222);
+	background-color: rgb(235,241,222);
+}
+.btpi3
+{
+	background: rgb(235,241,222);
+	background-color: rgb(235,241,222);
+}
+
+
+.eadi3
+{
+	background: rgb(228,223,236);
+	background-color: rgb(228,223,236);
+}
+
+.spdi1
+{
+	background: rgb(204,192,218);
+	background-color: rgb(204,192,218);
+}
+
+.spdi3
+{
+	background: rgb(228,223,236);
+	background-color: rgb(228,223,236);
+}
+
