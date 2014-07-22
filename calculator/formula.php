@@ -1,10 +1,11 @@
 <?php
 
 
+
 function calculate($base, $f /*$cost, */)
 {
-	global $eadcheck;
-	global $spdcheck;
+	global $i4check;
+	global $i5check;
 	global $btcheck;
 	global $bw;
 	//echo "formula: ".$bw;
@@ -12,14 +13,14 @@ function calculate($base, $f /*$cost, */)
 	$discount = $base['Discount']/100;
 	$discount3 = $base['Discount']/100 + $base['3_Year_Discount']/100;
 
-	if ($eadcheck)
+	if ($i4check)
 	{
 		$cost += ($base['Atlas_Backbone']) + $base['Atlas_Infrastructure'] + $base['Atlas_Support'];
 	}
 
-	if ($spdcheck)
+	if ($i5check)
 	{ 
-		$spread1 = $_POST['eadins'.$bw];
+		$spread1 = $_POST['i4ins'.$bw];
 		$spread3 = $spread1/3;
 	}
 

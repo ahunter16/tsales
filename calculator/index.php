@@ -4,95 +4,68 @@ include '../dblogin.php';
 include 'tablereturn.php';
 
 include 'formula.php';	
+try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
+	{					
+		
+		$basequery = 'SELECT id FROM sales2.fbr_service';
+		$stmt = $pdo2->query($basequery);
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
+	}
+	catch (PDOException $e)
+	{
+        $output = 'Error getting pricing info:' . $e->getMessage();
+        include'output.html.php';
+        exit();
+    }
+$serviceid = array();
+    while ($temp = $stmt->fetch())
+    {
+		$serviceid[] = 'i'.$temp['id'];
+	}
 
-if (isset($_POST['ttbann'])) 		//CHANGE: Variable supplier shorthands
+print_r($serviceid);
+
+foreach ($serviceid as $sid)
 {
-	$form['ttb'] = $_POST['ttbann'];
-}
-
-if (isset($_POST['btsann'])) 
-{
-	$form['bts'] = $_POST['btsann'];
-}
-
-if (isset($_POST['btpann'])) 
-{
-	$form['btp'] = $_POST['btpann'];
-}
-
-if (isset($_POST['eadann'])) 
-{
-	$form['ead'] = $_POST['eadann'];
+	if (!empty($_POST[$sid]) && !is_null($_POST[$sid]))
+	{
+		$form[$sid] = $_POST[$sid.'ann'];
+	}
 }
 
 
 $bandwidths = array(10,20,30,40,50,100);		//CHANGE: Variable supplier shorthands
-$services = array(
-				'ttb',
-				'bts',
-				'btp',
-				'ead'
-				);
+/*$serviceid = array(
+				'i1',
+				'i2',
+				'i3',
+				'i4'
+				);*/
 global $quotearray;
+
 foreach ($bandwidths as $bw)
 {
 	$totalcost = array();
-	foreach ($services as $s)
-	{
-		if (!is_null($_POST[$s."ann".$bw]))
-		{
+	foreach ($serviceid as $s)
+	{	
 			$form = array();
 			$providers = array();
+		if (!empty($_POST[$s."ann".$bw]) && !is_null($_POST[$s."ann".$bw]))
+		{
+
 			$form[$s] = $_POST[$s."ann".$bw];
 			$providers[] = $s;
 		}
-		if (!is_null($_POST['eadann'.$bw]))
+		if (!empty($_POST['i4ann'.$bw]) && !is_null($_POST['i4ann'.$bw]))
 		{
-			if ($_POST['eadins'.$bw] != "")
+			if ($_POST['i4ins'.$bw] != "")
 					{
-						$providers [] = 'spd';
-						$form['spd'] = $_POST['eadann'.$bw];
+						$providers [] = 'i5';
+						$form['i5'] = $_POST['i4ann'.$bw];
 					}
 		}
-	/*
-	if (!empty($_POST['ttbann'.$bw]) || !empty($_POST['btsann'.$bw]) || !empty($_POST['btpann'.$bw]) || !empty($_POST['eadann'.$bw]))
-		
-	{	$form = array();
-		$providers = array();
-		if ($_POST['ttbann'.$bw] != "") 
-		{
-			$form['ttb'] = $_POST['ttbann'.$bw];
-			$providers[] = 'ttb';
-		}
 
-		if ($_POST['btsann'.$bw] != "") 
-		{
-			$form['bts'] = $_POST['btsann'.$bw];
-			$providers[] = 'bts';
-
-		}
-
-		if ($_POST['btpann'.$bw] != "") 
-		{
-			$form['btp'] = $_POST['btpann'.$bw];
-			$providers[] = 'btp';
-		}
-
-		if ($_POST['eadann'.$bw] != "") 
-		{
-			$form['ead'] = $_POST['eadann'.$bw];
-			$providers[] = 'ead';
-			if ($_POST['eadins'.$bw] != "")
-			{
-				$providers [] = 'spd';
-				$form['spd'] = $_POST['eadann'.$bw];
-			}
-		}*/
-/*		echo "<br>Providers: ";
-		print_r($providers);
-		echo "<br>Formstuff:";
-		print_r($form);*/
 		$basevals = array();
 
 			try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
@@ -117,7 +90,7 @@ foreach ($bandwidths as $bw)
 			{
 				$index = $providers[$iterator];
 				//echo $index;
-				if ($index == "bts" || $index == "btp")
+				if ($index == "i2" || $index == "i3")
 				{
 					$btcheck = True;
 				}
@@ -125,21 +98,21 @@ foreach ($bandwidths as $bw)
 				{
 					$btcheck = False;
 				}
-				if ($index == "ead" || $index == "spd")
+				if ($index == "i4" || $index == "i5")
 				{
-					$eadcheck = True;
+					$i4check = True;
 				}
 				else 
 				{
-					$eadcheck = False;
+					$i4check = False;
 				}
-				if ($index == "spd")
+				if ($index == "i5")
 				{
-					$spdcheck = True;
+					$i5check = True;
 				}
 				else 
 				{
-					$spdcheck = False;
+					$i5check = False;
 				}
 				$totalcost[$index] = calculate($basevals, $f /*$cost, */);
 				$btcheck = False;
@@ -151,7 +124,7 @@ foreach ($bandwidths as $bw)
 	}
 }
 /*$fmargins = array("l", "m", "h");
-$fsupliers = array("ttb", "bts", "btp", "ead", "spd");
+$fsupliers = array("ttb", "bts", "i3", "ead", "i5");
 $fyears = array(1,3);
 $fbwidths = array(10,20,30,40,50,100);
 $final = array();

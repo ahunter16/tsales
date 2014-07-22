@@ -44,15 +44,15 @@
 		{	var rows = [10,20,30,40,50,100];
 
 			for (var it = 0; it < 5; it++)
-			{	var stindex = "btsann".concat(rows[it]);	//CHANGE to work for variable suppliers OR delete & delegate to PHP code
+			{	var stindex = "i2ann".concat(rows[it]);	//CHANGE to work for variable suppliers OR delete & delegate to PHP code
 				var ewayindex = "wayann".concat(rows[it]);
 				var prindex = "btpann".concat(rows[it]);
-				var stotindex = "btstot".concat(rows[it]);
+				var stotindex = "i2tot".concat(rows[it]);
 				var ptotindex = "btptot".concat(rows[it]);
-				var btsann = document.getElementByid(stindex).value;
+				var i2ann = document.getElementByid(stindex).value;
 				var btpann = document.getElementByid(prindex).value;
 				var wayann = document.getElementByid(ewayindex).value;
-				document.getElementByid("btstot10").value = "asdf";
+				document.getElementByid("i2tot10").value = "asdf";
 				var y = document.getElementByid(ptotindex);
 				//
 				y.innerHTML = (btpann + wayann);

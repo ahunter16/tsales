@@ -33,22 +33,22 @@ function Tablegenerate ()
 
 		foreach ($bwidths as $b)			//CHANGE: allow for variable number of suppliers
 		{ 
-			if (isset($_POST['ttbann'.$b]) && $_POST['ttbann'.$b] != "" )
+			if (isset($_POST['i1ann'.$b]) && $_POST['i1ann'.$b] != "" )
 			{
-				$ttbann = $_POST['ttbann'.$b];
+				$i1ann = $_POST['i1ann'.$b];
 
 			}
-			else {$ttbann = "";}
-			if (isset($_POST['ttb1yr'.$b]) && $_POST['ttb1yr'.$b] != "" )
+			else {$i1ann = "";}
+			if (isset($_POST['i11yr'.$b]) && $_POST['i11yr'.$b] != "" )
 			{
-				$ttb1yr = ($_POST['ttb1yr'.$b]);
+				$i11yr = ($_POST['i11yr'.$b]);
 			}
-			else {$ttb1yr = "";}
-			if (isset($_POST['ttb3yr'.$b]) && $_POST['ttb3yr'.$b] != "" )
+			else {$i11yr = "";}
+			if (isset($_POST['i13yr'.$b]) && $_POST['i13yr'.$b] != "" )
 			{
-				$ttb3yr = ($_POST['ttb3yr'.$b]);
+				$i13yr = ($_POST['i13yr'.$b]);
 			}
-			else {$ttb3yr = "";}
+			else {$i13yr = "";}
 			if (isset($_POST['wayann'.$b]) && $_POST['wayann'.$b] != "" )
 			{
 				$wayann = ($_POST['wayann'.$b]);
@@ -64,53 +64,53 @@ function Tablegenerate ()
 				$way3yr = ($_POST['way3yr'.$b]);
 			}
 			else {$way3yr = "";}
-			if (isset($_POST['btsann'.$b]) && $_POST['btsann'.$b] != "" )
+			if (isset($_POST['i2ann'.$b]) && $_POST['i2ann'.$b] != "" )
 			{
-				$btsann = ($_POST['btsann'.$b]);
+				$i2ann = ($_POST['i2ann'.$b]);
 			}
-			else {$btsann = "";}
-			if (isset($_POST['btpann'.$b]) && $_POST['btpann'.$b] != "" )
+			else {$i2ann = "";}
+			if (isset($_POST['i3ann'.$b]) && $_POST['i3ann'.$b] != "" )
 			{
-				$btpann = ($_POST['btpann'.$b]);
+				$i3ann = ($_POST['i3ann'.$b]);
 			}
-			else {$btpann = "";}
-			if (isset($_POST['eadann'.$b]) && $_POST['eadann'.$b] != "" )
+			else {$i3ann = "";}
+			if (isset($_POST['i4ann'.$b]) && $_POST['i4ann'.$b] != "" )
 			{
-				$eadann = ($_POST['eadann'.$b]);
+				$i4ann = ($_POST['i4ann'.$b]);
 			}
-			else {$eadann = "";}
-			if (isset($_POST['eadins'.$b]) && $_POST['eadins'.$b] != "" )
+			else {$i4ann = "";}
+			if (isset($_POST['i4ins'.$b]) && $_POST['i4ins'.$b] != "" )
 			{
-				$eadins = ($_POST['eadins'.$b]);
+				$i4ins = ($_POST['i4ins'.$b]);
 			}
-			else {$eadins = "";}
+			else {$i4ins = "";}
 
-			if (!empty($wayann) || !empty($btsann) || !empty($btpann))
+			if (!empty($wayann) || !empty($i2ann) || !empty($i3ann))
 			{
-				$btstot = $wayann + $btsann;
-				$btptot = $wayann + $btpann;
+				$i2tot = $wayann + $i2ann;
+				$i3tot = $wayann + $i3ann;
 			}
 			else 
 			{
-				$btstot = "";
-				$btptot = "";
+				$i2tot = "";
+				$i3tot = "";
 			}
 
 								//CHANGE: Variable suppliers
 		echo '<tr>				
 			<th class = "side">'.$b.'</th>
-			<td>£<input type = "text" class = "inputtext" name = "ttbann'.$b.'" id = "ttbann'.$b.'" value = "'.$ttbann.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "ttb1yr'.$b.'" id = "ttb1yr'.$b.'" value = "'.$ttb1yr.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "ttb3yr'.$b.'" id = "ttb3yr'.$b.'" value = "'.$ttb3yr.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "wayann'.$b.'" id = "wayann'.$b.'" value = "'.$wayann.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "way1yr'.$b.'" id = "way1yr'.$b.'" value = "'.$way1yr.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "way3yr'.$b.'" id = "way3yr'.$b.'" value = "'.$way3yr.'"></td>
-			<td>£<input type = "text" class = "inputtext" name = "btsann'.$b.'" id = "btsann'.$b.'" value = "'.$btsann.'" onblur = "ewayadd()"></td>
-			<td class = "btsi1" >£<label id = "btstot'.$b.'">'.$btstot.'</label></input></td>
-			<td>£<input type = "text" class = "inputtext" name = "btpann'.$b.'" id = "btpann'.$b.'" value = "'.$btpann.'" onblur = "ewayadd()"></td>
-			<td class = "btsi1" >£<label  id = "btptot'.$b.'">'.$btptot.'</label></td>	
-			<td>£<input type = "text" class = "inputtext" name = "eadann'.$b.'" id = "eadann'.$b.'" value = "'.$eadann.'"></td>				
-			<td>£<input type = "text" class = "inputtext" name = "eadins'.$b.'" id = "eadins'.$b.'" value = "'.$eadins.'"></td></tr>';
+			<td>&pound<input type = "text" class = "inputtext" name = "i1ann'.$b.'" id = "i1ann'.$b.'" value = "'.$i1ann.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "i11yr'.$b.'" id = "i11yr'.$b.'" value = "'.$i11yr.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "i13yr'.$b.'" id = "i13yr'.$b.'" value = "'.$i13yr.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "wayann'.$b.'" id = "wayann'.$b.'" value = "'.$wayann.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "way1yr'.$b.'" id = "way1yr'.$b.'" value = "'.$way1yr.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "way3yr'.$b.'" id = "way3yr'.$b.'" value = "'.$way3yr.'"></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "i2ann'.$b.'" id = "i2ann'.$b.'" value = "'.$i2ann.'" onblur = "ewayadd()"></td>
+			<td class = "btsi1" >&pound<label id = "i2tot'.$b.'">'.$i2tot.'</label></input></td>
+			<td>&pound<input type = "text" class = "inputtext" name = "i3ann'.$b.'" id = "i3ann'.$b.'" value = "'.$i3ann.'" onblur = "ewayadd()"></td>
+			<td class = "btsi1" >&pound<label  id = "i3tot'.$b.'">'.$i3tot.'</label></td>	
+			<td>&pound<input type = "text" class = "inputtext" name = "i4ann'.$b.'" id = "i4ann'.$b.'" value = "'.$i4ann.'"></td>				
+			<td>&pound<input type = "text" class = "inputtext" name = "i4ins'.$b.'" id = "i4ins'.$b.'" value = "'.$i4ins.'"></td></tr>';
 		};
 			echo '</table><br>';
 }
@@ -118,7 +118,7 @@ function table_populate()					//CHANGE: variable bandwidths, Years, suppliers TH
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('l' => 'Low Margin', 'm' => 'Medium Margin', 'h' => 'High Margin');
 	$marginindex = array('l', 'm', 'h');
-	$supp = array("ttb", "bts", "btp", "ead", "spd");
+	$supp = array("i1", "i2", "i3", "i4", "i5");
 
 	global $quotearray;
 				//echo "QUOTEARRAY: <br>";
@@ -126,11 +126,11 @@ function table_populate()					//CHANGE: variable bandwidths, Years, suppliers TH
 	foreach ($marginindex as $m)
 	{echo '<br><table><tr>
 			<th class = "side">'.$margins[$m].'</th>
-			<th class = "ttb" colspan = "2"><label>TTB<input type = "checkbox" name = "ttb'.$m.'" value = "ttb'.$m.'"></label></th>
-			<th class = "bt" colspan = "2"><label>BT 21CN Standard<input type = "checkbox" name = "bts'.$m.'" value = "bts'.$m.'"></label></th>
-			<th class = "bt" colspan = "2"><label>BT 21CN Premium<input type = "checkbox" name = "btp'.$m.'" value = "btp'.$m.'"></label></th>
-			<th class = "ead" colspan = "2"><label>BT Openreach EAD<input type = "checkbox" name = "ead'.$m.'" value = "ead'.$m.'"></label></th>
-			<th class = "ead" colspan = "2"><label>EAD Spread Install<input type = "checkbox" name = "spd'.$m.'" value = "spd'.$m.'"></label></th>
+			<th class = "ttb" colspan = "2"><label>TTB<input type = "checkbox" name = "i1'.$m.'" value = "i1'.$m.'"></label></th>
+			<th class = "bt" colspan = "2"><label>BT 21CN Standard<input type = "checkbox" name = "i2'.$m.'" value = "i2'.$m.'"></label></th>
+			<th class = "bt" colspan = "2"><label>BT 21CN Premium<input type = "checkbox" name = "i3'.$m.'" value = "i3'.$m.'"></label></th>
+			<th class = "ead" colspan = "2"><label>BT Openreach EAD<input type = "checkbox" name = "i4'.$m.'" value = "i4'.$m.'"></label></th>
+			<th class = "ead" colspan = "2"><label>EAD Spread Install<input type = "checkbox" name = "i5'.$m.'" value = "i5'.$m.'"></label></th>
 			</tr>
 			<tr>
 			<th class = "side" >Term</th>';
@@ -179,7 +179,7 @@ function table_populate()					//CHANGE: variable bandwidths, Years, suppliers TH
 						}	
 					}
 					else {$sub1 = '  ----';}
-					echo'<td class = "'.$s.'i'.$ys.'">£<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "'.$s.'i'.$ys.'" ></td>'."\n";
+					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "'.$s.'i'.$ys.'" ></td>'."\n";
 				}
 
 		};
