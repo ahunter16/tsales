@@ -28,9 +28,34 @@ if (isset($_POST['eadann']))
 
 
 $bandwidths = array(10,20,30,40,50,100);		//CHANGE: Variable supplier shorthands
+$services = array(
+				'ttb',
+				'bts',
+				'btp',
+				'ead'
+				);
 global $quotearray;
-foreach ($bandwidths as $bw){
+foreach ($bandwidths as $bw)
+{
 	$totalcost = array();
+	foreach ($services as $s)
+	{
+		if (!is_null($_POST[$s."ann".$bw]))
+		{
+			$form = array();
+			$providers = array();
+			$form[$s] = $_POST[$s."ann".$bw];
+			$providers[] = $s;
+		}
+		if (!is_null($_POST['eadann'.$bw]))
+		{
+			if ($_POST['eadins'.$bw] != "")
+					{
+						$providers [] = 'spd';
+						$form['spd'] = $_POST['eadann'.$bw];
+					}
+		}
+	/*
 	if (!empty($_POST['ttbann'.$bw]) || !empty($_POST['btsann'.$bw]) || !empty($_POST['btpann'.$bw]) || !empty($_POST['eadann'.$bw]))
 		
 	{	$form = array();
@@ -63,7 +88,7 @@ foreach ($bandwidths as $bw){
 				$providers [] = 'spd';
 				$form['spd'] = $_POST['eadann'.$bw];
 			}
-		}
+		}*/
 /*		echo "<br>Providers: ";
 		print_r($providers);
 		echo "<br>Formstuff:";

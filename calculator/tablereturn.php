@@ -3,7 +3,7 @@ mb_internal_encoding("UTF-8");
 function Tablegenerate ()
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('Low Margin', 'Medium Margin', 'High Margin');
-	$years = array(1,2,3,4,5);
+
 
 	echo 			//CHANGE: remove classes and simply zebra stripe the tables
 	'<table><tr>
@@ -117,7 +117,6 @@ function Tablegenerate ()
 function table_populate()					//CHANGE: variable bandwidths, Years, suppliers THROUGHOUT
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('l' => 'Low Margin', 'm' => 'Medium Margin', 'h' => 'High Margin');
-	$years = array(1,2,3,4,5);
 	$marginindex = array('l', 'm', 'h');
 	$supp = array("ttb", "bts", "btp", "ead", "spd");
 
@@ -153,22 +152,33 @@ function table_populate()					//CHANGE: variable bandwidths, Years, suppliers TH
 				foreach ($yrs as $ys)
 				{	global $bdw;
 					$y1 = $m.$ys;
-					$sub1 = '--';
+					$sub1 = ' -';
 					if ($bdw == "")
-					{$bdw = 10;}
-					if (isset($quotearray[$bdw])){
-					if (array_key_exists($s, $quotearray[$bdw])){
-					//echo "bws: ".$bwnums[$s][$y1]." ";
-					if ($quotearray[$bdw][$s][$y1]!= "") 
 					{
-						$sub1 = $quotearray[$bdw][$s][$y1];
-					} 
-					else 
-					{
-						$sub1 = '  --';
+						$bdw = 10;
 					}
-				}}
-				else {$sub1 = '  --';}
+
+					if (isset($quotearray[$bdw]))
+					{
+						if (array_key_exists($s, $quotearray[$bdw]))
+						{
+					//echo "bws: ".$bwnums[$s][$y1]." ";
+							if ($quotearray[$bdw][$s][$y1]!= "") 
+							{
+								$sub1 = $quotearray[$bdw][$s][$y1];
+							} 
+							else 
+							{
+								$sub1 = '  --';
+							}
+						}
+						else
+						{	
+						
+							$sub1 = ' ---';
+						}	
+					}
+					else {$sub1 = '  ----';}
 					echo'<td class = "'.$s.'i'.$ys.'">£<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "'.$s.'i'.$ys.'" ></td>'."\n";
 				}
 
