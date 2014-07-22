@@ -1,19 +1,21 @@
 <?php
 mb_internal_encoding("UTF-8");
-function Tablegenerate ()
+function Tablegenerate ($serviceid, $servicename)
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('Low Margin', 'Medium Margin', 'High Margin');
+	$supp = $serviceid;									//TODO: combine serviceid and servicenames??
+	$supp[] = "way";
 
 
-	echo 			//CHANGE: remove classes and simply zebra stripe the tables
+	echo 												//CHANGE: remove classes and simply zebra stripe the tables
 	'<table><tr>
-	<th class = "side">Supplier</th>
-	<th class = "ttb" colspan = "3">TalkTalk Business</th>
+	<th class = "side">Supplier</th>';
+/*	'<th class = "ttb" colspan = "3">TalkTalk Business</th>				//TODO: foreach $serviceid, echo the corresponding name
 	<th class = "bt" colspan = "3">BT 21CN Etherway</th>
 	<th class = "bt" colspan = "2">BT 21CN Etherflow Standard CoS</th>
 	<th class = "bt" colspan = "2">BT 21CN Etherflow Premium CoS</th>
-	<th class = "ead" colspan = "2">BT Openreach EAD</th></tr>
-	</tr>
+	<th class = "ead" colspan = "2">BT Openreach EAD</th></tr>*/
+	echo'</tr>
 	<tr>
 	<th class = "side" >Bandwidth Mbps</th>
 	<th class = "ttb"> Annual Rental</th>
@@ -28,7 +30,7 @@ function Tablegenerate ()
 	<th class = "bt">Total Price Inc. Etherway</th>
 	<th class = "ead">Annual Rental</th>
 	<th class = "ead">Install</th>
-	</tr>';
+	</tr>'; 								//TODO: foreach $serviceid after (or including) openreach ead, echo their names
 
 
 		foreach ($bwidths as $b)			//CHANGE: allow for variable number of suppliers

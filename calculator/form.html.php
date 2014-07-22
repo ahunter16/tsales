@@ -15,7 +15,7 @@
 			<br><br>
 			<table>
 
-				<?php tablegenerate();?>
+				<?php tablegenerate($serviceid, $servicename);?>
 			</table>
 			<input type = "submit" Value = "Calculate">
 			<input type = "button" value = "Clear" onclick = "clearinput()">

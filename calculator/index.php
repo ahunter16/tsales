@@ -7,9 +7,11 @@ include 'formula.php';
 try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
 	{					
 		
-		$basequery = 'SELECT id FROM sales2.fbr_service';
-		$stmt = $pdo2->query($basequery);
+		$servicequery = 'SELECT id, strfibreservice FROM sales2.fbr_service';
+		$stmt = $pdo2->query($servicequery);
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+
 
 	}
 	catch (PDOException $e)
@@ -22,9 +24,10 @@ $serviceid = array();
     while ($temp = $stmt->fetch())
     {
 		$serviceid[] = 'i'.$temp['id'];
+		$servicename[] = $temp['strfibreservice'];
 	}
 
-print_r($serviceid);
+print_r($servicename);
 
 foreach ($serviceid as $sid)
 {
@@ -36,12 +39,7 @@ foreach ($serviceid as $sid)
 
 
 $bandwidths = array(10,20,30,40,50,100);		//CHANGE: Variable supplier shorthands
-/*$serviceid = array(
-				'i1',
-				'i2',
-				'i3',
-				'i4'
-				);*/
+
 global $quotearray;
 
 foreach ($bandwidths as $bw)
@@ -123,12 +121,6 @@ foreach ($bandwidths as $bw)
 
 	}
 }
-/*$fmargins = array("l", "m", "h");
-$fsupliers = array("ttb", "bts", "i3", "ead", "i5");
-$fyears = array(1,3);
-$fbwidths = array(10,20,30,40,50,100);
-$final = array();
-$foreach*/
 
 
 include 'form.html.php';
