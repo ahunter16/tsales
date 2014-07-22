@@ -16,6 +16,11 @@ if ($page == "?")
 	header("Location: redirect");
 	$reredirect = 1;
 }
+if ($reredirect == 1)
+{
+	header("Location: ../test_view");
+	$reredirect = 0;
+}
 
 
 $bandwidths = array(10,20,30,40,50,100);
@@ -70,9 +75,10 @@ foreach ($bandwidths as $bw)
 		
 	}
 
-}	/*print_r($testarray);
-echo "TEST";*/
-print_r($_POST);
+}	
+/*print_r($testarray);
+echo "TEST";
+print_r($_POST);*/
 
 include 'form.html.php';
 function formfill($baseformval, $bw)

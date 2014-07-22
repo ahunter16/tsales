@@ -45,19 +45,19 @@ function basevals()
 	echo '<form>';
 	$i = 0;
 	tabledefine($modbasevals[0]);
-	echo " MODBASEVALS ";
-	print_r($modbasevals);
+/*	echo " MODBASEVALS ";
+	print_r($modbasevals);*/
 	$tablekeys = array_keys($modbasevals[0]);
 	foreach ($modbasevals as $modtable)
 	{	
 		echo'<tr>';
 		$tablerows = '';
-		/*$tablekeys = array_keys($modtable);*/
+
 		$ki = 0;
 		foreach ($tablekeys as $key)
 			
 			{	
-				if (!empty($_POST[$modtable['Bandwidth_Mbps'].$key])&& $key != 'Base_ID' && $key !='Last_Updated')
+				if ($key != "Base_ID" && $key !="Last_Updated" && !is_null($_POST[$modtable['Bandwidth_Mbps'].$key]) )
 				{
 					if ($_POST[$modtable['Bandwidth_Mbps'].$key] != $modtable[$key])
 					{

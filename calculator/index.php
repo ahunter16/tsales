@@ -6,7 +6,7 @@ include 'tablereturn.php';
 include 'formula.php';	
 
 
-if (isset($_POST['ttbann'])) 
+if (isset($_POST['ttbann'])) 		//CHANGE: Variable supplier shorthands
 {
 	$form['ttb'] = $_POST['ttbann'];
 }
@@ -27,7 +27,7 @@ if (isset($_POST['eadann']))
 }
 
 
-$bandwidths = array(10,20,30,40,50,100);
+$bandwidths = array(10,20,30,40,50,100);		//CHANGE: Variable supplier shorthands
 global $quotearray;
 foreach ($bandwidths as $bw){
 	$totalcost = array();
@@ -70,8 +70,8 @@ foreach ($bandwidths as $bw){
 		print_r($form);*/
 		$basevals = array();
 
-			try
-			{
+			try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
+			{					
 				
 				$basequery = 'SELECT * FROM sales.active_base_values WHERE Bandwidth_Mbps = '.$bw.' ORDER BY last_updated DESC LIMIT 1';
 				$stmt = $pdo->query($basequery);

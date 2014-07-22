@@ -5,7 +5,7 @@ function Tablegenerate ()
 	$margins = array('Low Margin', 'Medium Margin', 'High Margin');
 	$years = array(1,2,3,4,5);
 
-	echo 
+	echo 			//CHANGE: remove classes and simply zebra stripe the tables
 	'<table><tr>
 	<th class = "side">Supplier</th>
 	<th class = "ttb" colspan = "3">TalkTalk Business</th>
@@ -31,7 +31,7 @@ function Tablegenerate ()
 	</tr>';
 
 
-		foreach ($bwidths as $b)
+		foreach ($bwidths as $b)			//CHANGE: allow for variable number of suppliers
 		{ 
 			if (isset($_POST['ttbann'.$b]) && $_POST['ttbann'.$b] != "" )
 			{
@@ -96,9 +96,8 @@ function Tablegenerate ()
 				$btptot = "";
 			}
 
-		//echo "ttbann".$b." ".$ttbann;
-			//onblur = "formsub()"
-		echo '<tr>
+								//CHANGE: Variable suppliers
+		echo '<tr>				
 			<th class = "side">'.$b.'</th>
 			<td>£<input type = "text" class = "inputtext" name = "ttbann'.$b.'" id = "ttbann'.$b.'" value = "'.$ttbann.'"></td>
 			<td>£<input type = "text" class = "inputtext" name = "ttb1yr'.$b.'" id = "ttb1yr'.$b.'" value = "'.$ttb1yr.'"></td>
@@ -115,7 +114,7 @@ function Tablegenerate ()
 		};
 			echo '</table><br>';
 }
-function table_populate()
+function table_populate()					//CHANGE: variable bandwidths, Years, suppliers THROUGHOUT
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('l' => 'Low Margin', 'm' => 'Medium Margin', 'h' => 'High Margin');
 	$years = array(1,2,3,4,5);

@@ -1,9 +1,6 @@
 <?php
 
 
-
-
-
 function calculate($base, $f /*$cost, */)
 {
 	global $eadcheck;

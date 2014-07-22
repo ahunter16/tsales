@@ -44,7 +44,7 @@
 		{	var rows = [10,20,30,40,50,100];
 
 			for (var it = 0; it < 5; it++)
-			{	var stindex = "btsann".concat(rows[it]);
+			{	var stindex = "btsann".concat(rows[it]);	//CHANGE to work for variable suppliers OR delete & delegate to PHP code
 				var ewayindex = "wayann".concat(rows[it]);
 				var prindex = "btpann".concat(rows[it]);
 				var stotindex = "btstot".concat(rows[it]);
