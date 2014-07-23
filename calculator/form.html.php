@@ -24,7 +24,7 @@
 		<br>
 		<form action = "export" method = "get">
 		<input type = "submit" value = "Export to Word" name = "export"> <br>
-		<?php table_populate(); ?>
+		<?php table_populate($serviceid, $servicename); ?>
 		
 		</form>
 		<script>

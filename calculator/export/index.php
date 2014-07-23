@@ -7,9 +7,36 @@ $supps = array("ttb", "bts", "btp", "ead", "spd");
 //print_r($_GET);
 $duplicate = 0;
 
-foreach ($supps as $s)
+try 		
+{					
+	
+	$servicequery = 'SELECT id, strfibreservice FROM sales2.fbr_service';
+	$stmt = $pdo2->query($servicequery);
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+}
+
+
+catch (PDOException $e)
+	{
+        $output = 'Error getting pricing info:' . $e->getMessage();
+        include'output.html.php';
+        exit();
+    }
+
+
+$serviceid = array();
+
+
+while ($temp = $stmt->fetch())
+{
+	$serviceid[] = 'i'.$temp['id'];
+	$servicename[] = $temp['strfibreservice'];
+}
+
+foreach ($serviceid as $s)
 {	
 	global $margins;
+
 	foreach ($margins as $m)
 	{
 		if (!empty($_GET[$s.$m]))
@@ -18,7 +45,7 @@ foreach ($supps as $s)
 			{	
 				foreach ($indices as $in)
 				{	
-					$hist = substr($in, 0, 3);
+					$hist = substr($in, 0, -1);
 
 					if ($hist == $s)
 					{

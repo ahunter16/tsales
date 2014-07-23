@@ -4,7 +4,8 @@ function tablegenerate ()
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('Low Margin', 'Medium Margin', 'High Margin');
 	$years = array(1,2,3,4,5);
-
+											//CHANGES: everything before table populate can be changed
+										   // BUT table_populate takes args, so account for this
 	echo 
 	'<br><br><br><table id = "entryfield" class = "0martable"><tr>
 	<th class = "side">Supplier</th>

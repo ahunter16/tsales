@@ -27,18 +27,18 @@ $serviceid = array();
 		$servicename[] = $temp['strfibreservice'];
 	}
 
-print_r($servicename);
+//print_r($servicename);
 
 foreach ($serviceid as $sid)
 {
-	if (!empty($_POST[$sid]) && !is_null($_POST[$sid]))
+	if (isset($_POST[$sid]) && $_POST[$sid] != "")
 	{
 		$form[$sid] = $_POST[$sid.'ann'];
 	}
 }
 
 
-$bandwidths = array(10,20,30,40,50,100);		//CHANGE: Variable supplier shorthands
+$bandwidths = array(10,20,30,40,50,100);		
 
 global $quotearray;
 
@@ -49,13 +49,13 @@ foreach ($bandwidths as $bw)
 	{	
 			$form = array();
 			$providers = array();
-		if (!empty($_POST[$s."ann".$bw]) && !is_null($_POST[$s."ann".$bw]))
+		if (isset($_POST[$s."ann".$bw]) && $_POST[$s."ann".$bw] != "")
 		{
 
 			$form[$s] = $_POST[$s."ann".$bw];
 			$providers[] = $s;
 		}
-		if (!empty($_POST['i4ann'.$bw]) && !is_null($_POST['i4ann'.$bw]))
+		if (isset($_POST['i4ann'.$bw]) && $_POST["i4ann".$bw] != "")
 		{
 			if ($_POST['i4ins'.$bw] != "")
 					{
@@ -69,9 +69,12 @@ foreach ($bandwidths as $bw)
 			try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
 			{					
 				
-				$basequery = 'SELECT * FROM sales.active_base_values WHERE Bandwidth_Mbps = '.$bw.' ORDER BY last_updated DESC LIMIT 1';
-				$stmt = $pdo->query($basequery);
+				$basequery = 'SELECT * FROM sales2.fbr_template_detail WHERE intbandwidth = '.$bw.'';
+				$stmt = $pdo2->query($basequery);
 				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+/*				$basequery = 'SELECT * FROM sales.active_base_values WHERE Bandwidth_Mbps = '.$bw.' ORDER BY last_updated DESC LIMIT 1';
+				$stmt = $pdo->query($basequery);
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);*/
 
 			}
 			catch (PDOException $e)
@@ -84,7 +87,7 @@ foreach ($bandwidths as $bw)
 			$basevals = $stmt->fetch();
 
 			$iterator = 0;
-			foreach ($form as $f)
+			foreach ($form as $f)//
 			{
 				$index = $providers[$iterator];
 				//echo $index;
@@ -118,7 +121,6 @@ foreach ($bandwidths as $bw)
 				$iterator += 1;
 			}
 			$quotearray[$bw] = $totalcost;
-
 	}
 }
 

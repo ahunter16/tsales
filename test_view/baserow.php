@@ -7,7 +7,7 @@ function basevals()
 	$bandwidths = array(10,20,30,40,50,100);	
 	foreach ($bandwidths as &$b)
 	{
-		try
+		try 					//CHANGE change query to new database
 		{
 			$modbasequery = 'SELECT * FROM sales.base_value AS b WHERE b.Bandwidth_Mbps = '.$b.' ORDER BY last_updated DESC LIMIT 1';
 			$modstmt = $pdo->query($modbasequery);
@@ -53,11 +53,11 @@ function basevals()
 		echo'<tr>';
 		$tablerows = '';
 
-		$ki = 0;
+		$ki = 0;								//CHANGE: update names of base value columns
 		foreach ($tablekeys as $key)
 			
 			{	
-				if ($key != "Base_ID" && $key !="Last_Updated" && !is_null($_POST[$modtable['Bandwidth_Mbps'].$key]) )
+				if ($key != "Base_ID" && $key !="Last_Updated" && isset($_POST[$modtable['Bandwidth_Mbps'].$key]) && $_POST[$modtable['Bandwidth_Mbps'].$key]!= "")
 				{
 					if ($_POST[$modtable['Bandwidth_Mbps'].$key] != $modtable[$key])
 					{
@@ -99,7 +99,7 @@ function basevals()
 	/*echo "changearray: ";
 	print_r($changes);*/
 
-	foreach ($changes as $bw => $values)
+	foreach ($changes as $bw => $values)	//CHANGE column name
 	{
 		foreach ($tablekeys as $keys)
 		{
@@ -117,8 +117,9 @@ function basevals()
 			
 			foreach ($changes as $bw)
 			{	
-				$baseinsert = 'INSERT INTO sales.base_value SET ';
-				foreach ($bw as $keys => $values)
+				$baseinsert = 'INSERT INTO sales.base_value SET ';		//CHANGE: find out about how base values are 
+																	   // to be used, THEN change this
+				foreach ($bw as $keys => $values)					   
 				{	
 					$baseinsert .= $keys.' = :'.$keys.', ';
 				}

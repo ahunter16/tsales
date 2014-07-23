@@ -21,7 +21,7 @@ if ($reredirect == 1)
 	header("Location: ../test_view");
 	$reredirect = 0;
 }
-
+										//CHANGE: Sub in tsales/calculator/index where possible (all?)
 
 $bandwidths = array(10,20,30,40,50,100);
 global $quotearray;

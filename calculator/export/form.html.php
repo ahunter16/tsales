@@ -68,12 +68,12 @@
 		<br><div class = "Section2">
 	<form action = "export" method = "get">
 		<?php 
-		global $duplicate;
+			global $duplicate;
 
-		if (!empty($indices) && $duplicate == 0)
-		{
-			table_populate();
-		}
+			if (!empty($indices) && $duplicate == 0)
+			{
+				table_populate();
+			}
 			else if($duplicate == 1)
 			{
 				echo "<strong>WARNING:</strong> you have chosen to display the same supplier multiple times. 
@@ -83,12 +83,10 @@
 			{
 				echo "Error: no table columns selected. <br>Please go <a href = 'javascript:history.back()'>back</a> and select at least one column.";
 			}
-			 ?>
+		 ?>
 
 	</form>
 </div>
-
-
 
 	</body>
 </html>

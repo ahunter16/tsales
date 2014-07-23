@@ -1,21 +1,19 @@
 <?php
 
-
-
 function calculate($base, $f /*$cost, */)
-{
+{	//print_r($base);
 	global $i4check;
 	global $i5check;
 	global $btcheck;
 	global $bw;
 	//echo "formula: ".$bw;
 	$cost = 0;
-	$discount = $base['Discount']/100;
-	$discount3 = $base['Discount']/100 + $base['3_Year_Discount']/100;
+	$discount = $base['flodiscount']/100;
+	$discount3 = $base['flodiscount']/100 + $base['flo3yeardiscount']/100;
 
 	if ($i4check)
 	{
-		$cost += ($base['Atlas_Backbone']) + $base['Atlas_Infrastructure'] + $base['Atlas_Support'];
+		$cost += ($base['floatlasbackbone']) + $base['floatlasinfrastructure'] + $base['floatlassupport'];
 	}
 
 	if ($i5check)
@@ -30,34 +28,31 @@ function calculate($base, $f /*$cost, */)
 		$spread3 = 0;
 	}
 
-	if ($btcheck && isset($_POST['wayann'.$bw]))
+/*	if ($btcheck && isset($_POST['wayann'.$bw]))
 	{
 		$cost += $_POST['wayann'.$bw];
-	}
-
-
-
-	$cost += $f + $base['Internet_Bandwidth'] + $base['LES_Support'];
-	$initmargin = /*(($base['Margin_Ratio']/100) +1) * */$base['1_Year_Margin'];
-
-	$initmargin3 = /*(($base['Margin_Ratio']/100) +1) * */$base['3_Year_Margin'];
+	}*/
+	//echo " SPREAD ".$spread1;
+	$cost += $f + $base['flointernetbandwidth'] + $base['flolessupport'];
+	
+	$startmargin = $base['flo1yearstartingmargin'];
+	$startmargin3 = $base['flo3yearstartingmargin'];
 	$marginbands = array(
-		"h" => ($base['High_Margin']/100) - $discount,
-		 "m" => ($base['Med_Margin']/100)-$discount,
-		  "l" => ($base['Low_Margin']/100)-$discount, 
-		"h3" => ($base['High_Margin']/100) - $discount3,
-		 "m3" => ($base['Med_Margin']/100)-$discount3,
-		  "l3" => ($base['Low_Margin']/100)-$discount3);
+		"h" => ($base['flo1yearhighmargin']/100)-$discount,
+		"m" => ($base['flo1yearmediummargin']/100)-$discount,
+		"l" => ($base['flo1yearlowmargin']/100)-$discount, 
+		"h3" => ($base['flo3yearhighmargin']/100)-$discount3,
+		"m3" => ($base['flo3yearmediummargin']/100)-$discount3,
+		"l3" => ($base['flo3yearlowmargin']/100)-$discount3);
 	
 	$calcresult = array(
-		"l1" => round(($cost + $initmargin*$marginbands['l'] + $spread1), 2),
-		"m1" => round (($cost + $initmargin*$marginbands['m'] + $spread1), 2), 
-		"h1" => round (($cost + $initmargin*$marginbands['h'] + $spread1), 2),
-		"l3" => round (($cost + $initmargin3*$marginbands['l3'] + $spread3), 2),
-		"m3" => round (($cost + $initmargin3*$marginbands['m3'] + $spread3), 2), 
-		"h3" => round (($cost + $initmargin3*$marginbands['h3'] + $spread3), 2));
+		"l1" => round (($cost + $startmargin*$marginbands['l'] + $spread1), 2),
+		"m1" => round (($cost + $startmargin*$marginbands['m'] + $spread1), 2), 
+		"h1" => round (($cost + $startmargin*$marginbands['h'] + $spread1), 2),
+		"l3" => round (($cost + $startmargin3*$marginbands['l3'] + $spread3), 2),
+		"m3" => round (($cost + $startmargin3*$marginbands['m3'] + $spread3), 2), 
+		"h3" => round (($cost + $startmargin3*$marginbands['h3'] + $spread3), 2));
 	
-
 	return($calcresult);
 
 }
