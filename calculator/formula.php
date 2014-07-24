@@ -1,24 +1,37 @@
 <?php
 
-function calculate($base, $f /*$cost, */)
-{	//print_r($base);
+function calculate($base, $f, $band /*$cost, */)
+{	/*echo "BASE";
+	print_r($base);
+	echo "	END";*/
 	global $i4check;
 	global $i5check;
 	global $btcheck;
-	global $bw;
+	
+
 	//echo "formula: ".$bw;
 	$cost = 0;
-	$discount = $base['flodiscount']/100;
-	$discount3 = $base['flodiscount']/100 + $base['flo3yeardiscount']/100;
+	if ($band < 100)
+	{
+
+		$discount = (($band/10) -1)*$base['flodiscount']/100;
+	}
+	else 
+	{
+		$discount = 5 * $base['flodiscount']/100;
+	}
+	
+	$discount3 = $discount + $base['flo3yeardiscount']/100;
+
 
 	if ($i4check)
 	{
-		$cost += ($base['floatlasbackbone']) + $base['floatlasinfrastructure'] + $base['floatlassupport'];
+		$cost += ($base['floatlasbackboneppm']*$band) + $base['floatlasinfrastructure'] + $base['floatlassupport'];
 	}
 
 	if ($i5check)
 	{ 
-		$spread1 = $_POST['i4ins'.$bw];
+		$spread1 = $_POST['i4ins'.$band];
 		$spread3 = $spread1/3;
 	}
 
@@ -28,15 +41,17 @@ function calculate($base, $f /*$cost, */)
 		$spread3 = 0;
 	}
 
+	$margin = ($band-10)*($base['flomarginratio']/1000);
+
 /*	if ($btcheck && isset($_POST['wayann'.$bw]))
 	{
 		$cost += $_POST['wayann'.$bw];
 	}*/
 	//echo " SPREAD ".$spread1;
-	$cost += $f + $base['flointernetbandwidth'] + $base['flolessupport'];
+	$cost += $f + ($base['flointernetbandwidthppm']*$band) + $base['flolessupport'];
 	
-	$startmargin = $base['flo1yearstartingmargin'];
-	$startmargin3 = $base['flo3yearstartingmargin'];
+	$startmargin = $base['flo1yearstartingmargin']*(1+$margin);
+	$startmargin3 = $base['flo3yearstartingmargin']*(1+$margin);
 	$marginbands = array(
 		"h" => ($base['flo1yearhighmargin']/100)-$discount,
 		"m" => ($base['flo1yearmediummargin']/100)-$discount,

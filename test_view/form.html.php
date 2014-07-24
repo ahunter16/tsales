@@ -20,8 +20,8 @@
 			<br>
 
 			<table>
-
-				<?php tablegenerate();?>
+				<br>
+				<?php tablegenerate($serviceid, $servicename);?>
 			</table>
 			<label class = "martable" >Fill all Price Cells With: <input id = "fillcells" type = "text" onblur = "pricefill()"></label> 
 			<br>
@@ -38,11 +38,11 @@
 		<?php global $quotearray;
 		global $testarray;
 		$x = 0;
-		table_populate($quotearray, $x); 
+		table_populate($serviceid, $servicename, $quotearray, $x); 
 		echo '<label class = "martable1t"><strong>Prices Using Test Base Values:</strong></label><br><br>';
 		//print_r($testarray);
 		$x = 1;
-		table_populate($testarray, $x);?>
+		table_populate($serviceid, $servicename, $testarray, $x);?>
 		
 		
 		<script>
@@ -50,24 +50,47 @@
 		function pricefill()
 		{
 			var fillval = document.getElementById("fillcells").value;
-			var suppliers = ["ttbann", "ttb1yr", "ttb3yr", "wayann", "way1yr", "way3yr", "btsann", "btpann", "eadann", "eadins"];
+			var suppliers = <?php echo json_encode($serviceid); ?>;
+			var colname = ["ann", "1yr", "3yr"];
+			var colname1 = ["ann", "ins"];
 			var bandwidths = ["10","20","30","40","50","100"];
 			var bw = bandwidths.length;
 			var supp = suppliers.length;
+			var cols = colname.length;
+			var cols1 = colname1.length;
 			if (fillval || fillval == 0)
 			{
+				
+/*				function fillit(element, index, array)
+				{
+					element.value = fillval;
+				}
+				suppliers.forEach(fillit());*/
 				for(var i = 0; i < bw; i++)
 				{
 					for (var j = 0; j < supp; j++)
-					{
-						var index = suppliers[j].concat(bandwidths[i]);
-						document.getElementById(index).value = fillval;
-						document.getElementById(index).value = fillval;
+					{	
+						if (suppliers[j] != "i4" && suppliers[j] != "i5")
+						{
+							for (var k = 0; k < cols; k ++)
+							{
+								var joined = suppliers[j].concat(colname[k]);
+								var index = joined.concat(bandwidths[i]);
+								document.getElementById(index).value = fillval;
+								document.getElementById(index).value = fillval;
+							}
+						}
+						else if (suppliers[j] != "i5")
+						{
+							for (var k = 0; k < cols1; k ++)
+							{
+								var joined = suppliers[j].concat(colname1[k]);
+								var index = joined.concat(bandwidths[i]);
+								document.getElementById(index).value = fillval;
+								document.getElementById(index).value = fillval;
+							}
+						}
 					}
-					var btstot = "btstot".concat(bandwidths[i]);
-					var btptot = "btptot".concat(bandwidths[i]);
-					document.getElementById(btstot).innerHTML = 2*fillval;
-					document.getElementById(btptot).innerHTML = 2*fillval;
 				}
 			}
 		}

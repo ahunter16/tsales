@@ -5,26 +5,26 @@ function basevals()
 {
 	include '../dblogin.php';
 	$bandwidths = array(10,20,30,40,50,100);	
-	foreach ($bandwidths as &$b)
-	{
-		try 					//CHANGE change query to new database
-		{
-			$modbasequery = 'SELECT * FROM sales.base_value AS b WHERE b.Bandwidth_Mbps = '.$b.' ORDER BY last_updated DESC LIMIT 1';
-			$modstmt = $pdo->query($modbasequery);
-			$modresult = $modstmt->setFetchMode(PDO::FETCH_ASSOC);
-		}
 
-		catch (PDOException $e)
-		{
-		    $output = 'Error getting pricing info:' . $e->getMessage();
-		    include'output.html.php';
-		    exit();
-		}
-		while ($modrow = $modstmt->fetch())
-		{
-			$modbasevals[] = $modrow;
-		}
-		
+	$modbasevals = array();
+
+	try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
+	{					
+		$modbasequery = 'SELECT * FROM sales2.fbr_template WHERE booldefault = 1';
+		$stmt = $pdo2->query($modbasequery);
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	}
+
+	catch (PDOException $e)
+	{
+	    $output = 'Error getting pricing info:' . $e->getMessage();
+	    include'output.html.php';
+	    exit();
+	}
+
+	while ($temps = $stmt->fetch())
+	{
+		$modbasevals[] = $temps;
 	}
 
 	//print_r($modbasevals);
@@ -57,15 +57,15 @@ function basevals()
 		foreach ($tablekeys as $key)
 			
 			{	
-				if ($key != "Base_ID" && $key !="Last_Updated" && isset($_POST[$modtable['Bandwidth_Mbps'].$key]) && $_POST[$modtable['Bandwidth_Mbps'].$key]!= "")
+				if ($key != "id" && $key !="booldefault" && isset($_POST[$key]) && $_POST[$key] != "")
 				{
-					if ($_POST[$modtable['Bandwidth_Mbps'].$key] != $modtable[$key])
+					if ($_POST[$key] != $modtable[$key])
 					{
 
-						$changes[$modtable['Bandwidth_Mbps']][$key] = $_POST[$modtable['Bandwidth_Mbps'].$key];
+						$changes[$key] = $_POST[$key];
 					}
 
-					$active = $_POST[$modtable['Bandwidth_Mbps'].$key];					
+					$active = $_POST[$key];					
 				}
 
 				else
@@ -73,21 +73,21 @@ function basevals()
 					$active = $modtable[$key];
 				}
 
-				if ( $key == 'Base_ID' || $key =='Last_Updated')
+				if ( $key == 'id')
 				{
 					$insert = $active/*modtable[$key]*/;
 				}
-				elseif ($key == 'Bandwidth_Mbps')
+				elseif ($key == 'booldefault')
 				{
-					$insert = '<input name = "'.$modtable['Bandwidth_Mbps'].$key.'" type = "hidden" value = "'.$active/*$modtable[$key]*/.'" >'.$modtable[$key];
+					$insert = '<input name = "'.$key.'" type = "hidden" value = "'.$active/*$modtable[$key]*/.'" >'.$modtable[$key];
 				}
-				elseif ($ki >= 3 &&$ki < 10)
+/*				elseif ($ki >= 3 &&$ki < 10)
 				{
-					$insert = '&pound <input class = "baseinput" name = "'.$modtable['Bandwidth_Mbps'].$key.'" type = "text" value = "'.$active/*$modtable[$key]*/.'" >';
-				}
+					$insert = '&pound <input class = "baseinput" name = "'.$modtable['Bandwidth_Mbps']$key.'" type = "text" value = "'.$active/*$modtable[$key].'" >';
+				}*/
 				else 
 				{
-					$insert = '<input class = "baseinput" name = "'.$modtable['Bandwidth_Mbps'].$key.'" type = "text" value = "'.$active/*$modtable[$key]*/.'" > %';
+					$insert = '<input class = "baseinput" name = "'.$key.'" type = "text" value = "'.$active.'" > ';
 				}
 				$ki += 1;
 				$tablerows .= '<td>'.$insert.'</td>'."\n";
@@ -96,42 +96,37 @@ function basevals()
 		echo $tablerows;	//NECESSARY, DO NOT REMOVE
 		echo'</tr></form>';
 	}
-	/*echo "changearray: ";
-	print_r($changes);*/
 
-	foreach ($changes as $bw => $values)	//CHANGE column name
-	{
+
 		foreach ($tablekeys as $keys)
 		{
-			if (empty($values[$keys]) && $keys != "Last_Updated" && $keys != "Base_ID")
+			if (empty($keys) && $keys != "booldefault" && $keys != "id")
 			{
-				$changes[$bw][$keys] = $_POST[$bw.$keys];
+				$changes[$keys] = $_POST[$keys];
 			}
 		}
-	}
+	
 
 	if (!empty($_POST['savebases']))
 	{
 		try
 		{
 			
-			foreach ($changes as $bw)
-			{	
+
 				$baseinsert = 'INSERT INTO sales.base_value SET ';		//CHANGE: find out about how base values are 
 																	   // to be used, THEN change this
-				foreach ($bw as $keys => $values)					   
+				foreach ($changes as $keys => $values)					   
 				{	
 					$baseinsert .= $keys.' = :'.$keys.', ';
 				}
 				$baseinsert = rtrim($baseinsert, ", ");
 				$s = $pdo -> prepare($baseinsert);
-				foreach ($bw as $keys => $values)
+				foreach ($changes as $keys => $values)
 				{
 					$s -> bindValue(':'.$keys, $values);
 				}
 				$s -> execute();
-			}
-
+			
 
 
 		}

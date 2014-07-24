@@ -9,6 +9,17 @@ td
 	padding: 5px;
 	width: 100px;
 }
+tbody td:nth-of-type(odd),
+thead th:nth-of-type(odd)
+{
+	background:rgba(255, 100, 160, 0.5);
+}
+tbody td:nth-of-type(even),
+thead th:nth-of-type(even)
+
+{
+	background:rgba(10, 100, 255, 0.5);
+}
 hr
 {
 	height: 2px;
@@ -26,6 +37,14 @@ input[type="text"]
 	width:90px;
 }
 
+.bg0
+{
+	background:rgba(255, 100, 140, 0.1);
+}
+.bg1
+{
+	background:rgba(10, 100, 255, 0.1);
+}
 
 .marginhead
 {

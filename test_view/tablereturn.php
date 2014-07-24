@@ -1,185 +1,192 @@
 <?php
+
 mb_internal_encoding("UTF-8");
-function tablegenerate ()
+function Tablegenerate ($serviceid, $servicename)
 {	$bwidths = array(10,20,30,40,50,100);
 	$margins = array('Low Margin', 'Medium Margin', 'High Margin');
-	$years = array(1,2,3,4,5);
-											//CHANGES: everything before table populate can be changed
-										   // BUT table_populate takes args, so account for this
-	echo 
-	'<br><br><br><table id = "entryfield" class = "0martable"><tr>
-	<th class = "side">Supplier</th>
-	<th class = "ttb" colspan = "3">TalkTalk Business</th>
-	<th class = "bt" colspan = "3">BT 21CN Etherway</th>
-	<th class = "bt" colspan = "2">BT 21CN Etherflow Standard CoS</th>
-	<th class = "bt" colspan = "2">BT 21CN Etherflow Premium CoS</th>
-	<th class = "ead" colspan = "2">BT Openreach EAD</th></tr>
-	</tr>
+	//$supp = $serviceid;	
+	$servicearray = array_combine($serviceid, $servicename);								
+
+
+
+	echo 												//CHANGE: zebra stripe the tables
+	'<table id = "starttable"><tr>
+	<th class = "side">Supplier</th>';
+	foreach ($servicearray as $id => $name)
+	{	
+		
+		if($id != "i5" && $id != "i4")
+		{
+			echo '<td align = "center" class = "i'.$id.'" colspan = "3"><strong>'.$name.'</strong></td>';
+		}
+		else if ($id == "i4")
+		{
+			echo '<td align = "center" class = "i'.$id.'" colspan = "2"><strong>'.$name.'</strong></td>';
+		}
+
+
+	}
+	function colcheck($colno)
+	{
+		if ($colno == 0)
+		{
+			$colno = 1;
+		}
+		else
+		{
+			$colno = 0;
+		}
+	}
+
+	echo'</tr>
 	<tr>
-	<th class = "side" >Bandwidth Mbps</th>
-	<th class = "ttb"> Annual Rental</th>
-	<th class = "ttb">1 Year Install</th>
-	<th class = "ttb">3 Year Install</th>	
-	<th class = "bt"> Annual Rental</th>
-	<th class = "bt">1 Year Install</th>
-	<th class = "bt">3 Year Install</th>
-	<th class = "bt">Annual Rental</th>
-	<th class = "bt">Total Price Inc. Etherway</th>
-	<th class = "bt">Annual Rental</th>
-	<th class = "bt">Total Price Inc. Etherway</th>
-	<th class = "ead">Annual Rental</th>
-	<th class = "ead">Install</th>
-	</tr>';
+	<th class = "side" >Bandwidth Mbps</th>';
+	$colno = 0;
+	foreach ($servicearray as $id => $name)
+	{
+		if ($id != "i4" && $id != "i5")
+		{
+			echo '<td align = "center"><strong>Annual Rental</strong></td>';
+
+			echo '<td align = "center"><strong>1 Year Install</strong></td>';
+			echo '<td align = "center"><strong>3 Year Install</strong></td>';
+		}
+		else if ($id != "i5")
+			echo '
+				<td align = "center"><strong>Annual Rental</strong></td>
+				<td align = "center"><strong>Install</strong></td>';
+		
+	}
+	echo '</tr>';
+							
 
 
-		foreach ($bwidths as $b)
-		{ 
-			if (isset($_POST['ttbann'.$b]) && $_POST['ttbann'.$b] != "" )
+		foreach ($bwidths as $b)			
+		{ 	
+			foreach ($servicearray as $id => $name)
 			{
-				$ttbann = $_POST['ttbann'.$b];
+				$columns = array();
+				if ($id != "i5" && $id != "i4")
+				{
+					$columns = array("ann", "1yr", "3yr");
+				}
 
-			}
-			else {$ttbann = "";}
-			if (isset($_POST['ttb1yr'.$b]) && $_POST['ttb1yr'.$b] != "" )
-			{
-				$ttb1yr = ($_POST['ttb1yr'.$b]);
-			}
-			else {$ttb1yr = "";}
-			if (isset($_POST['ttb3yr'.$b]) && $_POST['ttb3yr'.$b] != "" )
-			{
-				$ttb3yr = ($_POST['ttb3yr'.$b]);
-			}
-			else {$ttb3yr = "";}
-			if (isset($_POST['wayann'.$b]) && $_POST['wayann'.$b] != "" )
-			{
-				$wayann = ($_POST['wayann'.$b]);
-			}
-			else {$wayann = "";}
-			if (isset($_POST['way1yr'.$b]) && $_POST['way1yr'.$b] != "" )
-			{
-				$way1yr = ($_POST['way1yr'.$b]);
-			}
-			else {$way1yr = "";}
-			if (isset($_POST['way3yr'.$b]) && $_POST['way3yr'.$b] != "" )
-			{
-				$way3yr = ($_POST['way3yr'.$b]);
-			}
-			else {$way3yr = "";}
-			if (isset($_POST['btsann'.$b]) && $_POST['btsann'.$b] != "" )
-			{
-				$btsann = ($_POST['btsann'.$b]);
-			}
-			else {$btsann = "";}
-			if (isset($_POST['btpann'.$b]) && $_POST['btpann'.$b] != "" )
-			{
-				$btpann = ($_POST['btpann'.$b]);
-			}
-			else {$btpann = "";}
-			if (isset($_POST['eadann'.$b]) && $_POST['eadann'.$b] != "" )
-			{
-				$eadann = ($_POST['eadann'.$b]);
-			}
-			else {$eadann = "";}
-			if (isset($_POST['eadins'.$b]) && $_POST['eadins'.$b] != "" )
-			{
-				$eadins = ($_POST['eadins'.$b]);
-			}
-			else {$eadins = "";}
+				else if ($id == "i4")
+				{
+					$columns = array("ann", "ins");
+				}
+				foreach ($columns as $colhead)
+				{
+					$cellval = $id.$colhead;
+					if (isset($_POST[$id.$colhead.$b]) && $_POST[$id.$colhead.$b] != "" )
+					{
+						$$cellval = $_POST[$id.$colhead.$b];
 
-			if (!empty($wayann) || !empty($btsann) || !empty($btpann))
-			{
-				$btstot = $wayann + $btsann;
-				$btptot = $wayann + $btpann;
-			}
-			else 
-			{
-				$btstot = "";
-				$btptot = "";
+					}
+					else {$$cellval = "";}
+
+				}
 			}
 
-		//echo "ttbann".$b." ".$ttbann;
-			//onblur = "formsub()"
-		echo '<tr>
-			<th class = "side">'.$b.'</th>
-			<td>&pound<input type = "text" class = "inputtext" name = "ttbann'.$b.'" id = "ttbann'.$b.'" value = "'.$ttbann.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "ttb1yr'.$b.'" id = "ttb1yr'.$b.'" value = "'.$ttb1yr.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "ttb3yr'.$b.'" id = "ttb3yr'.$b.'" value = "'.$ttb3yr.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "wayann'.$b.'" id = "wayann'.$b.'" value = "'.$wayann.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "way1yr'.$b.'" id = "way1yr'.$b.'" value = "'.$way1yr.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "way3yr'.$b.'" id = "way3yr'.$b.'" value = "'.$way3yr.'"></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "btsann'.$b.'" id = "btsann'.$b.'" value = "'.$btsann.'" onblur = "ewayadd()"></td>
-			<td class = "btsi1" >&pound<label id = "btstot'.$b.'">'.$btstot.'</label></input></td>
-			<td>&pound<input type = "text" class = "inputtext" name = "btpann'.$b.'" id = "btpann'.$b.'" value = "'.$btpann.'" onblur = "ewayadd()"></td>
-			<td class = "btsi1" >&pound<label  id = "btptot'.$b.'">'.$btptot.'</label></td>	
-			<td>&pound<input type = "text" class = "inputtext" name = "eadann'.$b.'" id = "eadann'.$b.'" value = "'.$eadann.'"></td>				
-			<td>&pound<input type = "text" class = "inputtext" name = "eadins'.$b.'" id = "eadins'.$b.'" value = "'.$eadins.'"></td></tr>';
+
+								//CHANGE: Variable suppliers
+		echo '<tr>				
+			<th class = "side">'.$b.'</th>';
+			foreach ($servicearray as $id => $name)
+			{
+				$columns = array();
+				if ($id != "i5" && $id != "i4")
+				{
+					$columns = array("ann", "1yr", "3yr");
+				}
+
+				else if ($id == "i4")
+				{
+					$columns = array("ann", "ins");
+				}
+				$colno = 0;
+				foreach ($columns as $colhead)
+				{	
+					$cellval = $id.$colhead;
+					echo '<td>&pound<input type = "text" class = "inputtext bg'.$colno.'" id ="'.$id.$colhead.$b.'" name = "'.$id.$colhead.$b.'" value = "' .$$cellval.'" ></td>';
+					colcheck($colno);
+				}
+			}
+
 		};
 			echo '</table><br>';
 }
-function table_populate($inputdata, $x)
-{	$bwidths = array(10,20,30,40,50,100);
+function table_populate($serviceid, $servicename, $quotearray, $x)
+{		$bwidths = array(10,20,30,40,50,100);
 	$margins = array('l' => 'Low Margin', 'm' => 'Medium Margin', 'h' => 'High Margin');
-	$years = array(1,2,3,4,5);
 	$marginindex = array('l', 'm', 'h');
-	$supp = array("ttb", "bts", "btp", "ead", "spd");
+	$supp = array("i1", "i2", "i3", "i4", "i5");
+	$servicearray = array_combine($serviceid, $servicename);								
+	//global $quotearray;
 
-	
-				//echo "QUOTEARRAY: <br>";
-			//print_r($inputdata);
 	foreach ($marginindex as $m)
-	{echo $x.'martable<br><table id = "'.$x.$m.'table" class = "'.$x.'martable"><tr>
-			<th class = "side">'.$margins[$m].'</th>
-			<th class = "ttb" colspan = "2"><label>TTB</label></th>
-			<th class = "bt" colspan = "2"><label>BT 21CN Standard</label></th>
-			<th class = "bt" colspan = "2"><label>BT 21CN Premium</label></th>
-			<th class = "ead" colspan = "2"><label>BT Openreach EAD</label></th>
-			<th class = "ead" colspan = "2"><label>EAD Spread Install</label></th>
-			</tr>
+	{echo '<br><table><tr>
+			<th class = "side">'.$margins[$m].'</th>';
+			foreach ($servicearray as $id => $name)
+			{
+				echo '<th colspan = "2"><label>'.$name.'<input type = "checkbox" name = "'.$id.$m.'" value = "'.$id.$m.'"></label></th>';
+			}
+
+			echo '</tr>
 			<tr>
 			<th class = "side" >Term</th>';
-			foreach($supp as $s){echo '
-				<th class = "'.$s.$m.'1 '.$s.'i1"><label for = "'.$s.$m.'1"> 1 Year </label></th>'."\n".'
-				<th class = "'.$s.$m.'3 '.$s.'i3"><label for = "'.$s.$m.'3">3 Years </label></th>
+			foreach($servicename as $s){echo '
+				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label for = "'.$s.$m.'1"> 1 Year </label></strong></td>'."\n".'
+				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label for = "'.$s.$m.'3">3 Years </label></strong></td>
 			';}
 
 		foreach ($bwidths as $bdw)
-		{	
+		{	//global $quotearray;
+
 			echo '<tr>
 			<th class = "side">'.$bdw.' Mbps</th>';
-			foreach ($supp as $s)
-			{ 
-
+			foreach ($serviceid as $s){ 
 				$yrs = array(1, 3);
-
+				$colno = 0;
 				foreach ($yrs as $ys)
-				{
+				{	//global $bdw;
 					$y1 = $m.$ys;
-					$sub1 = '--';
+					$sub1 = ' -';
 					if ($bdw == "")
 					{
 						$bdw = 10;
 					}
-					//echo "DATA".$bdw;
-					//print_r($inputdata[$bdw]['ttb']);
-					if (isset($inputdata[$bdw]))
+
+					if (isset($quotearray[$bdw]))
 					{
-						if (array_key_exists($s, $inputdata[$bdw]))
+						if (array_key_exists($s, $quotearray[$bdw]))
 						{
-							//echo "bws: ".$bwnums[$s][$y1]." ";
-							if ($inputdata[$bdw][$s][$y1]!= "") 
+
+							if ($quotearray[$bdw][$s][$y1]!= "") 
 							{
-								$sub1 = $inputdata[$bdw][$s][$y1];
+								$sub1 = $quotearray[$bdw][$s][$y1];
 							} 
 							else 
 							{
-								$sub1 = '  ---';
+								$sub1 = '  --';
 							}
-							//echo "keyexists";
-						}//echo "is set";
+						}
+						else
+						{	
+						
+							$sub1 = ' ---';
+						}	
 					}
-					else {$sub1 = '  -';}
-
-					echo'<td id = "'.$s.$y1.$bdw.$x.'" class = "'.$s.'i'.$ys.'" onmouseenter = "cellhighlight(this)" onmouseleave = "cellunhighlight(this)">&pound '.$sub1.' </td>'."\n";
+					else {$sub1 = '  ----';}
+					echo'<td class = "'.$s.'i'.$ys.'" id = "'.$s.$y1.$bdw.$x.'" onmouseenter = "cellhighlight(this)" onmouseleave = "cellunhighlight(this)">&pound '.$sub1.' </td>'."\n";
+					if ($colno == 0)
+					{
+						$colno = 1;
+					}
+					else
+					{
+						$colno = 0;
+					}
 				}
 			};
 		echo "</tr>";}

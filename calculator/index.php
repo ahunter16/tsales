@@ -42,6 +42,28 @@ $bandwidths = array(10,20,30,40,50,100);
 
 global $quotearray;
 
+$basevals = array();
+
+try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
+{					
+	$basequery = 'SELECT * FROM sales2.fbr_template WHERE booldefault = 1';
+	$stmt = $pdo2->query($basequery);
+	$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+}
+
+catch (PDOException $e)
+{
+    $output = 'Error getting pricing info:' . $e->getMessage();
+    include'output.html.php';
+    exit();
+}
+
+while ($temps = $stmt->fetch())
+{
+	$basevals = $temps;
+}
+
+
 foreach ($bandwidths as $bw)
 {
 	$totalcost = array();
@@ -64,31 +86,14 @@ foreach ($bandwidths as $bw)
 					}
 		}
 
-		$basevals = array();
 
-			try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
-			{					
-				
-				$basequery = 'SELECT * FROM sales2.fbr_template_detail WHERE intbandwidth = '.$bw.'';
-				$stmt = $pdo2->query($basequery);
-				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-/*				$basequery = 'SELECT * FROM sales.active_base_values WHERE Bandwidth_Mbps = '.$bw.' ORDER BY last_updated DESC LIMIT 1';
-				$stmt = $pdo->query($basequery);
-				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);*/
 
-			}
-			catch (PDOException $e)
-			{
-		        $output = 'Error getting pricing info:' . $e->getMessage();
-		        include'output.html.php';
-		        exit();
-		    }
 
-			$basevals = $stmt->fetch();
 
 			$iterator = 0;
 			foreach ($form as $f)//
 			{
+				
 				$index = $providers[$iterator];
 				//echo $index;
 				if ($index == "i2" || $index == "i3")
@@ -115,7 +120,10 @@ foreach ($bandwidths as $bw)
 				{
 					$i5check = False;
 				}
-				$totalcost[$index] = calculate($basevals, $f /*$cost, */);
+				
+				
+				//print_r($basevals);
+				$totalcost[$index] = calculate($basevals, $f, $bw /*$cost, */);
 				$btcheck = False;
 				//echo "it: ".$iterator;
 				$iterator += 1;

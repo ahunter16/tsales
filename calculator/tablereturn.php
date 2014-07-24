@@ -16,33 +16,45 @@ function Tablegenerate ($serviceid, $servicename)
 		
 		if($id != "i5" && $id != "i4")
 		{
-			echo '<th class = "i'.$id.'" colspan = "3">'.$name.'</th>';
+			echo '<td align = "center" class = "i'.$id.'" colspan = "3"><strong>'.$name.'</strong></td>';
 		}
 		else if ($id == "i4")
 		{
-			echo '<th class = "i'.$id.'" colspan = "2">'.$name.'</th>';
+			echo '<td align = "center" class = "i'.$id.'" colspan = "2"><strong>'.$name.'</strong></td>';
 		}
 
 
+	}
+	function colcheck($colno)
+	{
+		if ($colno == 0)
+		{
+			$colno = 1;
+		}
+		else
+		{
+			$colno = 0;
+		}
 	}
 
 	echo'</tr>
 	<tr>
 	<th class = "side" >Bandwidth Mbps</th>';
-
+	$colno = 0;
 	foreach ($servicearray as $id => $name)
 	{
 		if ($id != "i4" && $id != "i5")
 		{
-			echo '	
-				<th> Annual Rental</th>
-				<th>1 Year Install</th>
-				<th>3 Year Install</th>';
+			echo '<td align = "center"><strong>Annual Rental</strong></td>';
+
+			echo '<td align = "center"><strong>1 Year Install</strong></td>';
+			echo '<td align = "center"><strong>3 Year Install</strong></td>';
 		}
 		else if ($id != "i5")
 			echo '
-				<th >Annual Rental</th>
-				<th >Install</th>';
+				<td align = "center"><strong>Annual Rental</strong></td>
+				<td align = "center"><strong>Install</strong></td>';
+		
 	}
 	echo '</tr>';
 							
@@ -91,11 +103,12 @@ function Tablegenerate ($serviceid, $servicename)
 				{
 					$columns = array("ann", "ins");
 				}
-				
+				$colno = 0;
 				foreach ($columns as $colhead)
 				{	
 					$cellval = $id.$colhead;
-					echo '<td>&pound<input type = "text" class = "inputtext" name = "'.$id.$colhead.$b.'" value = "' .$$cellval.'" ></td>';
+					echo '<td>&pound<input type = "text" class = "inputtext bg'.$colno.'" name = "'.$id.$colhead.$b.'" value = "' .$$cellval.'" ></td>';
+					colcheck($colno);
 				}
 			}
 
@@ -122,8 +135,8 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 			<tr>
 			<th class = "side" >Term</th>';
 			foreach($servicename as $s){echo '
-				<th class = "'.$s.$m.'1 '.$s.'i1"><label for = "'.$s.$m.'1"> 1 Year </label></th>'."\n".'
-				<th class = "'.$s.$m.'3 '.$s.'i3"><label for = "'.$s.$m.'3">3 Years </label></th>
+				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label for = "'.$s.$m.'1"> 1 Year </label></strong></td>'."\n".'
+				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label for = "'.$s.$m.'3">3 Years </label></strong></td>
 			';}
 
 		foreach ($bwidths as $bdw)
@@ -133,7 +146,7 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 			<th class = "side">'.$bdw.' Mbps</th>';
 			foreach ($serviceid as $s){ 
 				$yrs = array(1, 3);
-
+				$colno = 0;
 				foreach ($yrs as $ys)
 				{	global $bdw;
 					$y1 = $m.$ys;
@@ -164,7 +177,15 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 						}	
 					}
 					else {$sub1 = '  ----';}
-					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "'.$s.'i'.$ys.'" ></td>'."\n";
+					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
+					if ($colno == 0)
+					{
+						$colno = 1;
+					}
+					else
+					{
+						$colno = 0;
+					}
 				}
 		};
 		echo "</tr>";}
