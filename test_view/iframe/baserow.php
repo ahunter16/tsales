@@ -2,8 +2,8 @@
 <?php 		//A file for displaying the most recent sets of base values
 
 function basevals()
-{
-	include '../dblogin.php';
+{	
+	include '../../dblogin.php';
 	$bandwidths = array(10,20,30,40,50,100);	
 
 	$modbasevals = array();
@@ -22,14 +22,18 @@ function basevals()
 	    exit();
 	}
 
+
 	while ($temps = $stmt->fetch())
 	{
 		$modbasevals[] = $temps;
+
 	}
+
 
 	//print_r($modbasevals);
 	function tabledefine($modbasevals)		//creates a table with headings using base_valuesx column names
 	{
+		//print_r($modbasevals);
 		echo '<table id = "baseinputs"><tr>';
 
 		$tablerows = "";
@@ -90,32 +94,30 @@ function basevals()
 				}*/
 				else 
 				{
-					$insert = '><input class = "baseinput" name = "'.$key.'" type = "text" value = "'.$active.'" > ';
+					$insert = '><input class = "baseinput" id = "'.$key.'" name = "'.$key.'" type = "text" value = "'.$active.'" onblur = "submitbases()"> ';
 				}
 				
 				$tablerows .= '<td'.$insert.'</td>'."\n";
 			}
 		$i += 1;
 		echo $tablerows;	//NECESSARY, DO NOT REMOVE
-		echo'</tr></form>';
+		echo'</tr></form></table>';
 	}
 
 
 		foreach ($tablekeys as $keys)
 		{	
-			if (!empty($_POST[$keys]) && !is_null($_POST[$keys]))
+			if (!empty($_POST['$keys']) && !is_null($_POST['$keys']))
 			{	
 				if (!empty($keys) && !is_null($keys) && $keys != "id" && $keys != "booldefault")
 				{
 					$changes[$keys] = $_POST[$keys];
-
 				}
 				$changes['booldefault'] = 1;
-	
 			}
 			
 		}
-
+	
 //print_r($changes);
 	if (!empty($_POST['savebases']))
 	{
@@ -124,17 +126,14 @@ function basevals()
 			try
 			{
 				
-					$baseupdate = "UPDATE sales2.fbr_template SET booldefault = 0 WHERE booldefault = 1 ";
-					$s = $pdo2 -> prepare($baseupdate);
-					$s-> execute();
-					$baseinsert = 'INSERT INTO sales2.fbr_template SET ';		//CHANGE: find out about how base values are 
-											   // to be used, THEN change this
+					$baseinsert = "UPDATE sales2.fbr_template SET booldefault = 0 WHERE booldefault = 1;";
+					$baseinsert .= ' INSERT INTO sales2.fbr_template SET ';		//CHANGE: find out about how base values are 
+																		   // to be used, THEN change this
 					foreach ($changes as $keys => $values)					   
 					{	
 						$baseinsert .= $keys.' = :'.$keys.', ';
-
 					}
-					$baseinsert = substr($baseinsert, 0, -2);
+					$baseinsert = rtrim($baseinsert, ", ");
 
 					$s = $pdo2 -> prepare($baseinsert);
 					foreach ($changes as $keys => $values)

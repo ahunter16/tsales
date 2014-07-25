@@ -14,7 +14,11 @@
 			<p> Unsupported</p>
 		</iframe> -->
 		<form action = "" method = "post" id = "inputform">
-			<?php basevals(); ?>
+			
+<!-- 			<iframe id = "baseframe" seamless  height = "122" width = "1400" sandbox = "" src = "iframe" onload = "loadform()"></iframe>
+			<br>
+ -->
+ 			<?php basevals(); ?>
 			<br>
 			<input action = "?" type = "submit" value = "Save" name = "savebases">
 			<br>
@@ -25,12 +29,13 @@
 			</table>
 			<label class = "martable" >Fill all Price Cells With: <input id = "fillcells" type = "text" onblur = "pricefill()"></label> 
 			<br>
-			<input class = "martable" type = "submit" Value = "Calculate">
-			<input class = "martable" type = "button" value = "Clear" onclick = "clearinput()">
+			<input class = "martable" type = "submit" Value = "Calculate" >
+			<input class = "martable" type = "button" value = "Clear" onclick = "loadform()">
 
 			<br>
 
 		</form>
+		<p id = "pform">Hi</p>
 		<br>
 	 	<br>
 	 	<label class = "martable0t"><strong>Prices Using Active Base Values (Default):</strong></label><br>
@@ -46,7 +51,23 @@
 		
 		
 		<script>
+	/*	function loadform()
+		{
+			var keynames = ["strtemplate", "floatlasbackboneppm", "floatlasinfrastructure", "flointernetbandwidthppm", "flolessupport", "floatlassupport", "flodiscount", "flomarginratio", "flo1yearstartingmargin", "flo1yearlowmargin", "flo1yearmediummargin", "flo1yearhighmargin", "flo3yeardiscount", "flo3yearstartingmargin", "flo3yearlowmargin", "flo3yearmediummargin", "flo3yearhighmargin"];
+			for (val of keynames)
+			{
+				var ifr = document.getElementById("baseframe");
+				var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
+				var theForm = ifrDoc.getElementById(val);
+				var hid = document.createElement("input");
+				hid.type = "hidden";
+				hid.value = theForm.value;
+				hid.name = val;
+				document.getElementById("inputform").appendChild(hid);
+				document.getElementById("pform").innerHTML = document.getElementById("pform").innerHTML.concat(theForm.value);
+			}	*/
 
+		}
 		function pricefill()
 		{
 			var fillval = document.getElementById("fillcells").value;

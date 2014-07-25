@@ -1,9 +1,25 @@
 <?php
 
+$page = substr($_SERVER['REQUEST_URI'], -1);
+$reredirect = 0;
+if ($page == "?")
+{
+	header("Location: redirect");
+	$reredirect = 1;
+}
+/*if ($reredirect == 1)
+{
+	header("Location: redirect");
+	$redirect = 0;
+	unset($_POST['savebases']);
+}*/
+
 include '../dblogin.php';
 include 'tablereturn.php';
 include 'baserow.php';
 include 'formula.php';	
+
+
 try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
 	{					
 		
@@ -75,18 +91,19 @@ foreach ($bandwidths as $bw)
 	{	//echo $bw;
 		if (empty($_POST[$bk]))
 		{
-			$completeform = 0;
+			$baseformval[$bk] = $basevals[$bk];
 		}
 		else 
 		{
 			$baseformval[$bk] = $_POST[$bk];
+
 		}
 	}
 
 	
 
 
-
+	//print_r($_POST);
 	$totalcost = array();
 	foreach ($serviceid as $s)
 	{	
@@ -144,14 +161,16 @@ foreach ($bandwidths as $bw)
 				$totalcost[$index] = calculate($basevals, $f, $bw /*$cost, */);
 				$btcheck = False;
 				$totalprice[$index] = calculate($baseformval, $f, $bw);
+
 				//echo "it: ".$iterator;
 				$iterator += 1;
-			}	
-			if ($completeform == 1);
-			{	
-				$testarray[$bw] = $totalprice;
 			}
-			
+			//print_r($totalprice);	
+			if (isset($totalprice))
+			{
+			$testarray[$bw] = $totalprice;
+			}
+			//echo $completeform;
 			$quotearray[$bw] = $totalcost;
 	}
 }
