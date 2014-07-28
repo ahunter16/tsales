@@ -4,6 +4,33 @@ include '../dblogin.php';
 include 'tablereturn.php';
 
 include 'formula.php';	
+
+try
+{
+	$sql = 'SELECT * FROM sales2.cnv_account';
+	$stmt = $pdo2 -> query($sql);
+	$result = $stmt -> setFetchMode(PDO::FETCH_ASSOC);
+}
+
+catch(PDOException $e)
+{
+	$output = 'Error getting account info: '. $e->getMessge();
+	include "output.html.php";
+	exit();
+}
+
+$accname = array();
+$accid = array();
+
+while ($temp = $stmt->fetch())
+{
+	$accid[] = $temp['intaccountid'];
+	$accname[] = $temp['straccount'];
+}
+$accounts = array_combine($accid, $accname);
+natcasesort($accounts);
+//print_r($accounts);
+
 try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
 	{					
 		
@@ -123,7 +150,7 @@ foreach ($bandwidths as $bw)
 				
 				
 				//print_r($basevals);
-				$totalcost[$index] = calculate($basevals, $f, $bw /*$cost, */);
+				$totalcost[$index] = calculate($basevals, $f, $bw);
 				$btcheck = False;
 				//echo "it: ".$iterator;
 				$iterator += 1;
@@ -133,6 +160,30 @@ foreach ($bandwidths as $bw)
 }
 
 
+if (isset($_POST['save']) && $_POST['save'] == 'Save')
+{	
+	$save = 1;
+	$fields = array("postcode", "ticket", "account");
+	foreach ($fields as $f)
+	{
+		if (empty($_POST[$f]))
+		{
+			echo $f." field empty, please make sure it is filled in and try again.";
+			$save = 0;
+			echo $save;
+
+			break;
+		}
+		echo $_POST['postcode'];
+		echo $save;
+	}
+	global $save;
+	if ($save == 1)
+	{
+		//include "quotesave.php";
+		echo "Save works (ish)";
+	}
+}
+//print_r($_POST);
+
 include 'form.html.php';
-/*echo "<br>total:";
-print_r($quotearray);*/

@@ -126,53 +126,34 @@ function Tablegenerate ($serviceid, $servicename)
 		};
 			echo '</table><br>';
 }
-function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths, Years, suppliers THROUGHOUT
+function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, suppliers THROUGHOUT
 {	$bwidths = array(10,20,30,40,50,100);
-	$margins = array('l' => 'Low Margin', 'm' => 'Medium Margin', 'h' => 'High Margin');
-	$marginindex = array('l', 'm', 'h');
-	$supp = array("i1", "i2", "i3", "i4", "i5");
-	$servicearray = array_combine($serviceid, $servicename);
+	
 	global $quotearray;
+	$s = substr($_REQUEST['supplier'], 0, -1);
+	$m = substr($_REQUEST['supplier'], -1);
+	$name = $servicearray["i".substr($s, -1)];
+	echo '<br><table><tr>';
 
-	foreach ($marginindex as $m)
-	{echo '<br><table><tr>
-			<th class = "side">'.$margins[$m].'</th>';
-			foreach ($servicearray as $id => $name)
-			{
-				echo '<th colspan = "2"><label>'.$name.'<input type = "radio" name = "supplier" value = "'.$id.$m.'"></label></th>';
-				$_POST[$id.$m."name"] = $name;
-			}
+				echo '<th colspan = "3"><label>'.$name.'</label></th>';
+			
 
 			echo '</tr>
 			<tr>
 			<th class = "side" >Term</th>';
-			foreach($servicename as $s){echo '
+			echo '
 				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label for = "'.$s.$m.'1"> 1 Year </label></strong></td>'."\n".'
-				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label for = "'.$s.$m.'3"> 3 Years </label></strong></td>
-			';}
+				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label for = "'.$s.$m.'3">3 Years </label></strong></td>
+			';
 
 		foreach ($bwidths as $bdw)
-		{	global $quotearray;
-
+		{	
+			
 			echo '<tr>
 			<th class = "side">'.$bdw.' Mbps</th>';
-			foreach ($serviceid as $s){ 
+			 
 				$yrs = array(1, 3);
 				$colno = 0;
-				if ($s == "i4")	
-				{
-					echo '<input type = "hidden" value ="'.$_POST[$s.'ins'.$bdw].'"" name = '.$s.'ins'.$bdw.'>';
-				}
-				elseif($s == "i5")
-				{
-					echo '<input type = "hidden" value = "included in price" name = '.$s.'ins'.$bdw.'>';
-				}
-				else 
-				{
-					echo '<input type = "hidden" value = "'.$_POST[$s.'1yr'.$bdw].'" name = '.$s.'1yr'.$bdw.'>';
-					echo '<input type = "hidden" value = "'.$_POST[$s.'3yr'.$bdw].'" name = '.$s.'3yr'.$bdw.'>';
-				}
-
 				foreach ($yrs as $ys)
 				{	global $bdw;
 					$y1 = $m.$ys;
@@ -182,28 +163,17 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 						$bdw = 10;
 					}
 
-					if (isset($quotearray[$bdw]))
-					{
-						if (array_key_exists($s, $quotearray[$bdw]))
-						{
 
-							if ($quotearray[$bdw][$s][$y1]!= "") 
-							{
-								$sub1 = $quotearray[$bdw][$s][$y1];
-							} 
-							else 
-							{
-								$sub1 = '  --';
-							}
-						}
-						else
-						{	
-						
-							$sub1 = ' ---';
-						}	
+					if ($_REQUEST[$s.$y1.$bdw]!= "") 
+					{
+						$sub1 = $_REQUEST[$s.$y1.$bdw];
+					} 
+					else 
+					{
+						$sub1 = '  --';
 					}
-					else {$sub1 = '  ----';}
-					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
+					
+					echo'<td class = "'.$s.'i'.$ys.'">&pound <input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
 					if ($colno == 0)
 					{
 						$colno = 1;
@@ -212,10 +182,10 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 					{
 						$colno = 0;
 					}
-
 				}
 		};
-		echo "</tr>";}
+		echo "</tr>";
+}
 		echo '</table><br>';
-	}
-	}
+	
+	

@@ -22,10 +22,26 @@
 
 		</form>
 		<br>
-		<form action = "export" method = "get">
-		<input type = "submit" value = "Export to Word" name = "export"> <br>
+		<form action = "confirm" method = "get">
+		<input type = "submit" value = "Save" name = "save"> <br><br>
+
+		<div id = "extrainfo">
+			<label id = "postlabel" for = "postcode"> Postcode: </label> <br>
+			<input type = "text" name = "postcode" id = "postcode"><br><br>
+			<label id = "ticketlabel" for ="ticket">Ticket Number: </label><br>
+			<input type = "text" name = "ticket" id = "ticket"><br><br>
+		</div>
+		<div id = "extrainfo2">
+
+			<label id = "reflabel" for = "reference">Reference:</label><br>
+			<input type = "text" name = "reference" id = "reference"><br><br>
+			<label>Account:</label><br>
+			<select id = "account" name = "account">
+				<?php accountselect(); ?>
+			</select>
+		</div>
+		<br><br>
 		<?php table_populate($serviceid, $servicename); ?>
-		
 		</form>
 		<script>
 		function formsub()
