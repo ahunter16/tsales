@@ -160,8 +160,18 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 				$yrs = array(1, 3);
 				$colno = 0;
 				if ($s == "i4")	
-				{
-					echo '<input type = "hidden" value ="'.$_POST[$s.'ins'.$bdw].'"" name = '.$s.'ins'.$bdw.'>';
+				{	
+					if (isset($_POST[$s.'ins'.$bdw]))
+					{
+						$inscost = $_POST[$s.'ins'.$bdw];
+					}
+					else 
+					{
+						$inscost = "--";
+					}	
+					echo '<input type = "hidden" value ="'.$inscost.'"" name = '.$s.'ins'.$bdw.'>';
+					
+
 				}
 				elseif($s == "i5")
 				{
@@ -169,8 +179,28 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 				}
 				else 
 				{
-					echo '<input type = "hidden" value = "'.$_POST[$s.'1yr'.$bdw].'" name = '.$s.'1yr'.$bdw.'>';
-					echo '<input type = "hidden" value = "'.$_POST[$s.'3yr'.$bdw].'" name = '.$s.'3yr'.$bdw.'>';
+					if (isset($_POST[$s.'1yr'.$bdw]))
+					{
+						$inscost1 = $_POST[$s.'1yr'.$bdw];
+					}
+					else 
+					{
+						$inscost1 = "--";
+
+					}
+
+					if (isset($_POST[$s.'3yr'.$bdw]))
+					{
+						$inscost3 = $_POST[$s.'3yr'.$bdw];
+					}
+					else 
+					{
+						$inscost3 = "--";
+
+					}		
+
+					echo '<input type = "hidden" value = "'.$inscost1.'" name = '.$s.'1yr'.$bdw.'>';
+					echo '<input type = "hidden" value = "'.$inscost3.'" name = '.$s.'3yr'.$bdw.'>';
 				}
 
 				foreach ($yrs as $ys)
@@ -190,20 +220,39 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 							if ($quotearray[$bdw][$s][$y1]!= "") 
 							{
 								$sub1 = $quotearray[$bdw][$s][$y1];
+								if ($s != "i5")
+								{
+									$rentmargin = $sub1 - $_POST[$s."ann".$bdw];
+								}
+								elseif (isset($_POST["i4ann".$bdw]) && isset($_POST['i4ins'.$bdw]))
+								{
+									$rentmargin = ($sub1 - $_POST["i4ann".$bdw]) - $_POST['i4ins'.$bdw];
+								}
+								else 
+								{
+									$rentmargin = 0;
+								}
 							} 
 							else 
 							{
 								$sub1 = '  --';
+								$rentmargin = 0;
 							}
 						}
 						else
 						{	
 						
 							$sub1 = ' ---';
+							$rentmargin = 0;
 						}	
 					}
-					else {$sub1 = '  ----';}
+					else 
+					{
+						$sub1 = '  ----';
+						$rentmargin = 0;
+					}
 					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
+					echo '<input type = "hidden" value = "'.$rentmargin.'" name = '.$s.'mar'.$bdw.'>';
 					if ($colno == 0)
 					{
 						$colno = 1;

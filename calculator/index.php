@@ -90,6 +90,7 @@ while ($temps = $stmt->fetch())
 	$basevals = $temps;
 }
 
+//$_GET['templateid'] = $basevals['id'];
 
 foreach ($bandwidths as $bw)
 {

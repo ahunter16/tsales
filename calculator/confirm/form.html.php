@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang = "en">
 	<head>
-
-		<title>Export Values</title>
+		<meta charset = "utf-8">
+		<title>Confirm Quote</title>
+		<link rel="stylesheet" type="text/css" href="calc.css">
 	</head>
 	<img src="http://www.converged.co.uk/images/page/converged-logo.gif" alt="Image not found">	<br>
 	<hr>
@@ -56,27 +57,31 @@
 		
 		</script>
 
-	<form action = "export" method = "get">
-		<?php 
-			global $duplicate;
 
-			if (!empty($_REQUEST['supplier']))
+		<br><div class = "Section2">
+	<form action = "" method = "post">
+		<?php 
+
+
+			if (isset($_REQUEST['supplier']))
 			{
 				table_populate($servicearray);
-			}
-			else if($duplicate == 1)
-			{
-				echo "<strong>WARNING:</strong> you have chosen to display the same supplier multiple times. 
-				<br>Please go <a href = 'javascript:history.back()'>back</a> and make sure only one instance of each supplier is selected.";
+echo '		
+		<label><strong>Postcode: </strong></label>'.$_REQUEST['postcode'].
+		'<br><label><strong>Reference: </strong></label>'.$_REQUEST['reference'].
+		'<br><label><strong>Ticket Number: </strong></label>'.$_REQUEST['ticket'].
+		'<br><label><strong>Account: </strong></label>'.$accounts[$_REQUEST['account']].'<br>';
+
+
 			}
 			else
 			{
 				echo "Error: no table columns selected. <br>Please go <a href = 'javascript:history.back()'>back</a> and select at least one column.";
 			}
 		 ?>
-
+		  <br> <input id = "reviewbutton" type = "submit" value = "Submit for Review" name = "reviewsub">
 	</form>
-</div>
+</div>		
 
 	</body>
 </html>

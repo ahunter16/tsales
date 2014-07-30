@@ -133,19 +133,24 @@ function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, su
 	$s = substr($_REQUEST['supplier'], 0, -1);
 	$m = substr($_REQUEST['supplier'], -1);
 	$name = $servicearray["i".substr($s, -1)];
-	echo '<br><table><tr>';
 
-				echo '<th colspan = "3"><label>'.$name.'</label></th>';
+	echo '<br><table id = "confirmtable"><tr>';
+				echo '<th colspan = "5"><label>'.$name.'</label></th>';
 			
 
 			echo '</tr>
 			<tr>
 			<th class = "side" >Term</th>';
 			echo '
-				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label for = "'.$s.$m.'1"> 1 Year </label></strong></td>'."\n".'
-				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label for = "'.$s.$m.'3">3 Years </label></strong></td>
+				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label> 1 Year </label></strong></td>'."\n".'
+				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label>3 Years </label></strong></td>
 			';
-
+		if ($s != "i4" && $s != "i5")
+		{
+			echo '
+			<td align = "center" class = "'.$s.$m.'1"<strong><label> 1 Year Install</label></strong></td>'."\n".'
+			<td align = "center" class = "'.$s.$m.'3"<strong><label> 3 Year Install</label></strong></td>';
+		}
 		foreach ($bwidths as $bdw)
 		{	
 			
@@ -173,7 +178,8 @@ function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, su
 						$sub1 = '  --';
 					}
 					
-					echo'<td class = "'.$s.'i'.$ys.'">&pound <input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
+					echo'
+					<td class = "'.$s.'i'.$ys.'"  >&pound <label name = "'.$s.$y1.$bdw.'"> '.$sub1.'</label></td>'."\n";
 					if ($colno == 0)
 					{
 						$colno = 1;
@@ -182,6 +188,12 @@ function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, su
 					{
 						$colno = 0;
 					}
+				}
+				if ($s != "i4" && $s != "i5")
+				{
+					echo '
+					<td class = "'.$s.'i1" >&pound '.$_REQUEST[$s."1yr".$bdw].'<label name = "'.$s.'1yr'.$bdw.'">'."\n".'
+					<td class = "'.$s.'i3" >&pound '.$_REQUEST[$s."3yr".$bdw].'<label name = "'.$s.'3yr'.$bdw.'">';
 				}
 		};
 		echo "</tr>";

@@ -52,6 +52,8 @@ function calculate($base, $f, $band /*$cost, */)
 	
 	$startmargin = $base['flo1yearstartingmargin']*(1+$margin);
 	$startmargin3 = $base['flo3yearstartingmargin']*(1+$margin);
+/*	$_POST['start1'.$band] = $startmargin;
+	$_POST['start3'.$band] = $statmargin3;*/
 	$marginbands = array(
 		"h" => ($base['flo1yearhighmargin']/100)-$discount,
 		"m" => ($base['flo1yearmediummargin']/100)-$discount,

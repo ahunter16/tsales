@@ -42,6 +42,7 @@
 		</div>
 		<br><br>
 		<?php table_populate($serviceid, $servicename); ?>
+		<input type = "hidden" value = <?php echo $basevals['id']; ?> name = "templateid">
 		</form>
 		<script>
 		function formsub()

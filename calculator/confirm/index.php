@@ -2,10 +2,17 @@
 
 include '../../dblogin.php';
 
-$margins = array("l", "m", "h");
-$supps = array("ttb", "bts", "btp", "ead", "spd");
+$bandwidths = array(10,20,30,40,50,100);
 //print_r($_GET);
-$duplicate = 0;
+
+$staffid = 1;
+
+if (!empty($_REQUEST['reviewsub']))
+{
+	//print_r($_REQUEST);
+	include 'submission.php';
+}
+
 
 try 		
 {					
@@ -25,7 +32,7 @@ catch (PDOException $e)
 
 
 $serviceid = array();
- print_r($_POST);
+print_r($_REQUEST);
 
 while ($temp = $stmt->fetch())
 {
@@ -33,45 +40,42 @@ while ($temp = $stmt->fetch())
 	$servicename[] = $temp['strfibreservice'];
 }
 $servicearray = array_combine($serviceid, $servicename);
-foreach ($serviceid as $s)
-{	
-	global $margins;
 
-	foreach ($margins as $m)
-	{
-		if (!empty($_POST[$s.$m]))
-		{	
-			if (!empty($indices))
-			{	
-				foreach ($indices as $in)
-				{	
-					$hist = substr($in, 0, -1);
 
-					if ($hist == $s)
-					{
-						$duplicate = 1;
-					}			
-				}
 
-				if ($duplicate != 1)
-				{
-					$indices[] = $s.$m;
-				}
-			}
-			else
-			{
-				$indices[] = $s.$m;
-			}
-		}
 
-	}
+try
+{
+	$sql = 'SELECT * FROM sales2.cnv_account';
+	$stmt = $pdo2 -> query($sql);
+	$result = $stmt -> setFetchMode(PDO::FETCH_ASSOC);
 }
+
+catch(PDOException $e)
+{
+	$output = 'Error getting account info: '. $e->getMessge();
+	include "output.html.php";
+	exit();
+}
+
+$accname = array();
+$accid = array();
+
+while ($temp = $stmt->fetch())
+{
+	$accid[] = $temp['intaccountid'];
+	$accname[] = $temp['straccount'];
+}
+$accounts = array_combine($accid, $accname);
 //print_r($_GET);
+
+
+
 include 'tablereturn.php';
-if (!empty($indices) && $duplicate == 0)
+/*if (!empty($indices) && $duplicate == 0)
 {
 	header("Content-type: application/vnd.ms-word");
 	header("Content-Disposition: attachment;Filename=LES_Prices_Table.doc");
-}
+}*/
 include 'form.html.php';
 
