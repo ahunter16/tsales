@@ -19,7 +19,7 @@ function Tablegenerate ($serviceid, $servicename)
 
 
 
-	echo 												//CHANGE: zebra stripe the tables
+	echo 											
 	'<table><tr>
 	<th class = "side">Supplier</th>';
 	foreach ($servicearray as $id => $name)
@@ -145,7 +145,7 @@ function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, su
 				<td align = "center" class = "'.$s.$m.'1 '.$s.'i1"><strong><label> 1 Year </label></strong></td>'."\n".'
 				<td align = "center" class = "'.$s.$m.'3 '.$s.'i3"><strong><label>3 Years </label></strong></td>
 			';
-		if ($s != "i4" && $s != "i5")
+		if ($s != "i5")
 		{
 			echo '
 			<td align = "center" class = "'.$s.$m.'1"<strong><label> 1 Year Install</label></strong></td>'."\n".'
@@ -194,6 +194,13 @@ function table_populate($servicearray)		//CHANGE: variable bandwidths, Years, su
 					echo '
 					<td class = "'.$s.'i1" >&pound '.$_REQUEST[$s."1yr".$bdw].'<label name = "'.$s.'1yr'.$bdw.'">'."\n".'
 					<td class = "'.$s.'i3" >&pound '.$_REQUEST[$s."3yr".$bdw].'<label name = "'.$s.'3yr'.$bdw.'">';
+				}
+				elseif ($s == "i4")
+				{
+					echo '
+					<td class = "'.$s.'i1" name = "'.$s.'1yr'.$bdw.'"">&pound '.$_REQUEST[$s."ins".$bdw].'
+					<td class = "'.$s.'i1" name = "'.$s.'3yr'.$bdw.'">&pound --';
+
 				}
 		};
 		echo "</tr>";

@@ -52,36 +52,41 @@
 				}
 			}
 	}
-		
-
-		
 		</script>
-
-
 		<br><div class = "Section2">
 	<form action = "" method = "post">
 		<?php 
-
-
-			if (isset($_REQUEST['supplier']))
+			if (isset($_REQUEST['supplier']) && empty($_REQUEST['reviewsub']))
 			{
 				table_populate($servicearray);
-echo '		
-		<label><strong>Postcode: </strong></label>'.$_REQUEST['postcode'].
-		'<br><label><strong>Reference: </strong></label>'.$_REQUEST['reference'].
-		'<br><label><strong>Ticket Number: </strong></label>'.$_REQUEST['ticket'].
-		'<br><label><strong>Account: </strong></label>'.$accounts[$_REQUEST['account']].'<br>';
+				echo '		
+						<label><strong>Postcode: </strong></label>'.$_REQUEST['postcode'].
+						'<br><label><strong>Reference: </strong></label>'.$_REQUEST['reference'].
+						'<br><label><strong>Ticket Number: </strong></label>'.$_REQUEST['ticket'].
+						'<br><label><strong>Account: </strong></label>'.$accounts[$_REQUEST['account']].'<br>';
+						echo '<br> <input id = "reviewbutton" type = "submit" value = "Submit for Review" name = "reviewsub">';
 
 
 			}
-			else
+			
+			elseif (!isset($_REQUEST['supplier']))
 			{
 				echo "Error: no table columns selected. <br>Please go <a href = 'javascript:history.back()'>back</a> and select at least one column.";
 			}
+			elseif (!empty($_REQUEST['reviewsub']))
+			{
+				echo "Quote submitted for review.<br>";
+				echo "<a href = ../../review>Review Quotes</a><br>";
+				echo "<a href = ../>Back</a> to Calculator";
+
+			}
 		 ?>
-		  <br> <input id = "reviewbutton" type = "submit" value = "Submit for Review" name = "reviewsub">
+		  
 	</form>
 </div>		
+<div>
+</div
 
 	</body>
+
 </html>
