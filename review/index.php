@@ -23,7 +23,7 @@ else
 	$option = $_POST['statusid'];
 }
 
-echo $option." || ".$status."<br>";
+//echo $option." || ".$status."<br>";
 try
 {
 	$sql = 'SELECT id, strquotestatus  FROM sales2.fbr_quote_status';

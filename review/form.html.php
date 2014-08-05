@@ -2,7 +2,7 @@
 <html lang = "en">
 	<head>
 		<meta charset = "utf-8">
-		<title>Calculator</title>
+		<title>Review Quotes</title>
 		<link rel="stylesheet" type="text/css" href="review.css">
 
 

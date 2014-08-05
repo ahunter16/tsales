@@ -19,22 +19,44 @@
 			</table>
 			<input type = "submit" Value = "Calculate">
 			<input type = "button" value = "Clear" onclick = "clearinput()">
-
+			<input type = "hidden" name = "postcodeval" value = "" id = "postcodeval">
+			<input type = "hidden" name = "ticketval" value = "" id = "ticketval">
+			<input type = "hidden" name = "referenceval" value = "" id = "referenceval">
+			<input type = "hidden" name = "accountval" value = "" id = "accountval">
 		</form>
 		<br>
-		<form action = "confirm" method = "get">
+		<form action = "" method = "post">
 		<input type = "submit" value = "Save" name = "save"> <br><br>
 
-		<div id = "extrainfo">
+
+		<?php 
+		$inputfields = array('postcode', 'ticket', 'reference');
+		foreach ($inputfields as $i)
+		{
+			$n = $i."val";
+			if (!empty($_POST[$i]))
+			{
+
+				$$n = $_POST[$i];
+			}
+			else 
+			{
+				$$n = "";
+			}
+		}
+
+		echo'<div id = "extrainfo">
 			<label id = "postlabel" for = "postcode"> Postcode: </label> <br>
-			<input type = "text" name = "postcode" id = "postcode"><br><br>
+			<input type = "text" name = "postcode" id = "postcode"value = "'.$postcodeval.'"onblur = "copyvalues(this)"><br><br>
 			<label id = "ticketlabel" for ="ticket">Ticket Number: </label><br>
-			<input type = "text" name = "ticket" id = "ticket"><br><br>
+			<input type = "text" name = "ticket" id = "ticket"value = "'.$ticketval.'"onblur = "copyvalues(this)"><br><br>
 		</div>
 		<div id = "extrainfo2">
 
 			<label id = "reflabel" for = "reference">Reference:</label><br>
-			<input type = "text" name = "reference" id = "reference"><br><br>
+			<input type = "text" name = "reference" id = "reference"value = "'.$referenceval.'"onblur = "copyvalues(this)"><br><br>'; ?>
+
+
 			<label>Account:</label><br>
 			<select id = "account" name = "account">
 				<?php accountselect(); ?>
@@ -57,26 +79,22 @@
 				inputbox[i].value = "";
 			}
 		}
-		function ewayadd()
-		{	var rows = [10,20,30,40,50,100];
 
-			for (var it = 0; it < 5; it++)
-			{	var stindex = "i2ann".concat(rows[it]);	//CHANGE to work for variable suppliers OR delete & delegate to PHP code
-				var ewayindex = "wayann".concat(rows[it]);
-				var prindex = "btpann".concat(rows[it]);
-				var stotindex = "i2tot".concat(rows[it]);
-				var ptotindex = "btptot".concat(rows[it]);
-				var i2ann = document.getElementByid(stindex).value;
-				var btpann = document.getElementByid(prindex).value;
-				var wayann = document.getElementByid(ewayindex).value;
-				document.getElementByid("i2tot10").value = "asdf";
-				var y = document.getElementByid(ptotindex);
-				//
-				y.innerHTML = (btpann + wayann);
+		function copyvalues(x)
+		{
+			var name = x.name.concat("val");
+			if (name == "accountval")
+			{
+				document.getElementById(name).value = "blah";
 			}
-		
+			else 
+			{
+				document.getElementById(name).value = x.value;
+			}
+
 		}
 		</script>
-
+		<div id ="excess">
+		</div>
 	</body>
 </html>
