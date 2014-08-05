@@ -35,6 +35,7 @@ input[type="text"]
 {
 	border:0px;
 	width:90px;
+	background: rgba(255, 255, 255, 0.1);
 }
 
 #postcode, #ticket, #reference
@@ -44,26 +45,18 @@ input[type="text"]
 
 #extrainfo
 {
-	position: absolute;
-	top: 460px;
+	position: relative;
+	top: -80px;
 	left: 200px;
 }
 
 #extrainfo2
 {
-	position:absolute;
-	top: 460px;
+	position:relative;
+	top: -200px;
 	left:350px;
 }
 
-.bg0
-{
-	background:rgba(255, 100, 140, 0.1);
-}
-.bg1
-{
-	background:rgba(10, 100, 255, 0.1);
-}
 
 .marginhead
 {
@@ -75,19 +68,12 @@ input[type="text"]
 	background: rgb(196, 189, 151);
 	width:120px;
 }
-.ttb
-{
-	background: rgb(79, 129, 189);
-}
-.bt
-{
-	background: rgb(155,187,89);
-}
 
 
-.ead
+#margins
 {
-	background: rgb(128,100,162);
+	position: relative;
+	top: -150px;
 }
 
 #title10mbs, #title20mbs, #title30mbs, #title40mbs, #title50mbs, #title100mbs
@@ -102,7 +88,7 @@ input[type="text"]
 }
 #basehist
 {
-	position:absolute;
+	position:relative;
 	left: 250px;
 	top: 10px;
 	width: 220px;
@@ -111,65 +97,7 @@ input[type="text"]
 }
 #bases
 {
-	position: absolute;
+	position: relative;
 	left: 50px;
 	top: 150px;
 }
-
-.ttbi1
-{
-	background :rgb(184,204,228);
-	background-color: rgb(184,204,228);
-}
-
-.btsi1
-{
-	background: rgb(216, 228, 188);
-	background-color: b(216, 228, 188);
-}
-.btpi1
-{
-	background: rgb(216, 228, 188);
-	background-color: b(216, 228, 188);
-}
-
-.eadi1
-{
-	background: rgb(204,192,218);
-	background-color: rgb(204,192,218);
-}
-.ttbi3
-{
-	background: rgb(220,230,241);
-	background-color: rgb(220,230,241);
-}
-.btsi3
-{
-	background: rgb(235,241,222);
-	background-color: rgb(235,241,222);
-}
-.btpi3
-{
-	background: rgb(235,241,222);
-	background-color: rgb(235,241,222);
-}
-
-
-.eadi3
-{
-	background: rgb(228,223,236);
-	background-color: rgb(228,223,236);
-}
-
-.spdi1
-{
-	background: rgb(204,192,218);
-	background-color: rgb(204,192,218);
-}
-
-.spdi3
-{
-	background: rgb(228,223,236);
-	background-color: rgb(228,223,236);
-}
-

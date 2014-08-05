@@ -48,8 +48,7 @@ function basevals()
 	echo '<form>';
 	$i = 0;
 	tabledefine($modbasevals[0]);
-/*	echo " MODBASEVALS ";
-	print_r($modbasevals);*/
+
 	$tablekeys = array_keys($modbasevals[0]);
 	foreach ($modbasevals as $modtable)
 	{	
@@ -80,17 +79,10 @@ function basevals()
 				{
 					$insert = ">".$active/*modtable[$key]*/;
 				}
-				elseif ($key == 'booldefault')
-				{
-					$insert = 'type = "hidden" name = "'.$key.'" value = "'.$modtable[$key].'">';
-				}
-/*				elseif ($ki >= 3 &&$ki < 10)
-				{
-					$insert = '&pound <input class = "baseinput" name = "'.$modtable['Bandwidth_Mbps']$key.'" type = "text" value = "'.$active/*$modtable[$key].'" >';
-				}*/
+
 				else 
 				{
-					$insert = '><input class = "baseinput" name = "'.$key.'" type = "text" value = "'.$active.'" > ';
+					$insert = '><input class = "baseinput" name = "'.$key.'" type = "text" value = "'.$active.'" placeholder = "'.$active.'"> ';
 				}
 				
 				$tablerows .= '<td'.$insert.'</td>'."\n";
@@ -121,31 +113,47 @@ function basevals()
 	{
 		if ($altered == 1)
 		{
+			if ($_POST['savebases'] == "default")
+			{	
+				$changes['booldefault'] = 1;
+				try
+				{
+					
+						$baseupdate = "UPDATE sales2.fbr_template SET booldefault = 0 WHERE booldefault = 1 ";
+						$s = $pdo2 -> prepare($baseupdate);
+						$s-> execute();
+				}
+
+				catch (PDOException $e)
+			    {
+			        $output = 'Error unsetting old default fbr_template values' . $e->getMessage();
+			        include'output.html.php';
+			        echo $baseinsert;
+			        exit();
+			    }
+			}
+			elseif($_POST['savebases'] == "copy")
+			{
+				$changes['booldefault'] = 0;
+			}
+
 			try
 			{
-				
-					$baseupdate = "UPDATE sales2.fbr_template SET booldefault = 0 WHERE booldefault = 1 ";
-					$s = $pdo2 -> prepare($baseupdate);
-					$s-> execute();
-					$baseinsert = 'INSERT INTO sales2.fbr_template SET ';		//CHANGE: find out about how base values are 
-											   // to be used, THEN change this
-					foreach ($changes as $keys => $values)					   
-					{	
-						$baseinsert .= $keys.' = :'.$keys.', ';
+				$baseinsert = 'INSERT INTO sales2.fbr_template SET ';		
+				foreach ($changes as $keys => $values)					   
+				{	
+					$baseinsert .= $keys.' = :'.$keys.', ';
 
-					}
-					$baseinsert = substr($baseinsert, 0, -2);
+				}
+				$baseinsert = substr($baseinsert, 0, -2);
 
-					$s = $pdo2 -> prepare($baseinsert);
-					foreach ($changes as $keys => $values)
-					{
-						$s -> bindValue(':'.$keys, $values);
-					}
-					$s -> execute();
-					echo "New base values added and set as default.";
-				
-
-
+				$s = $pdo2 -> prepare($baseinsert);
+				foreach ($changes as $keys => $values)
+				{
+					$s -> bindValue(':'.$keys, $values);
+				}
+				$s -> execute();
+				echo "New base values added and set as copy.";
 			}
 
 			catch (PDOException $e)
@@ -155,12 +163,14 @@ function basevals()
 		        echo $baseinsert;
 		        exit();
 		    }
-		}
+			}
+		
 		else 
 		{
 			echo "No base value fields have been changed; record not saved.";
 		}
 	}
+
 
 }			
 ?>

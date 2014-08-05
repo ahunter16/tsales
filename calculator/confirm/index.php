@@ -5,13 +5,14 @@ include '../../dblogin.php';
 $bandwidths = array(10,20,30,40,50,100);
 //print_r($_GET);
 
-$staffid = 1;
+$staffid = 21;
 
 if (!empty($_REQUEST['reviewsub']))
 {
 	//print_r($_REQUEST);
 	include 'submission.php';
 }
+
 
 
 try 		
@@ -32,7 +33,7 @@ catch (PDOException $e)
 
 
 $serviceid = array();
-print_r($_REQUEST);
+//print_r($_REQUEST);
 
 while ($temp = $stmt->fetch())
 {
@@ -72,6 +73,7 @@ $accounts = array_combine($accid, $accname);
 
 
 include 'tablereturn.php';
+
 /*if (!empty($indices) && $duplicate == 0)
 {
 	header("Content-type: application/vnd.ms-word");

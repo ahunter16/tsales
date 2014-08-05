@@ -20,7 +20,10 @@
  -->
  			<?php basevals(); ?>
 			<br>
-			<input action = "?" type = "submit" value = "Save" name = "savebases">
+<!-- 			<input action = "?" type = "submit" value = "Save as Defaults" name = "savebases">
+			<input action = "?" type = "submit" value = "Save as Copy" name = "savebases"> -->
+			<button type = "submit" value = "default" name = "savebases" >Save As Defaults</button>
+			<button type = "submit" value = "copy" name = "savebases" >Save As Copy</button>
 			<br>
 
 			<table>
@@ -35,39 +38,41 @@
 			<br>
 
 		</form>
-		<p id = "pform">Hi</p>
+		<!-- <p id = "pform">Hi</p> -->
 		<br>
 	 	<br>
-	 	<label class = "martable0t"><strong>Prices Using Active Base Values (Default):</strong></label><br>
-	 	<br>
+	 	<form type = "submit" method = "post">
+ 		<input type = "submit" value = "Save" name = "save"> <br><br>
+		<label class = "martable1t"><strong>Prices Using Test Base Values:</strong></label><br><br>
+
+
+		<div id = "extrainfo">
+			<label id = "postlabel" for = "postcode"> Postcode: </label> <br>
+			<input type = "text" name = "postcode" id = "postcode"><br><br>
+			<label id = "ticketlabel" for ="ticket">Ticket Number: </label><br>
+			<input type = "text" name = "ticket" id = "ticket"><br><br>
+		</div>
+		<div id = "extrainfo2">
+
+			<label id = "reflabel" for = "reference">Reference:</label><br>
+			<input type = "text" name = "reference" id = "reference"><br><br>
+			<label>Account:</label><br>
+			<select id = "account" name = "account">
+				<?php accountselect(); ?>
+			</select>
+		</div>
 		<?php global $quotearray;
 		global $testarray;
-		$x = 0;
-		table_populate($serviceid, $servicename, $quotearray, $x); 
-		echo '<label class = "martable1t"><strong>Prices Using Test Base Values:</strong></label><br><br>';
+		//table_populate($serviceid, $servicename, $quotearray, $x); 
+
 		//print_r($testarray);
 		$x = 1;
 		table_populate($serviceid, $servicename, $testarray, $x);?>
-		
-		
+		<input type = "hidden" value = "" name = "templateid"><!-- echo $basevals['id']; -->
+		</form>
 		<script>
-	/*	function loadform()
-		{
-			var keynames = ["strtemplate", "floatlasbackboneppm", "floatlasinfrastructure", "flointernetbandwidthppm", "flolessupport", "floatlassupport", "flodiscount", "flomarginratio", "flo1yearstartingmargin", "flo1yearlowmargin", "flo1yearmediummargin", "flo1yearhighmargin", "flo3yeardiscount", "flo3yearstartingmargin", "flo3yearlowmargin", "flo3yearmediummargin", "flo3yearhighmargin"];
-			for (val of keynames)
-			{
-				var ifr = document.getElementById("baseframe");
-				var ifrDoc = ifr.contentDocument || ifr.contentWindow.document;
-				var theForm = ifrDoc.getElementById(val);
-				var hid = document.createElement("input");
-				hid.type = "hidden";
-				hid.value = theForm.value;
-				hid.name = val;
-				document.getElementById("inputform").appendChild(hid);
-				document.getElementById("pform").innerHTML = document.getElementById("pform").innerHTML.concat(theForm.value);
-			}	*/
 
-		}
+		
 		function pricefill()
 		{
 			var fillval = document.getElementById("fillcells").value;
@@ -81,12 +86,7 @@
 			var cols1 = colname1.length;
 			if (fillval || fillval == 0)
 			{
-				
-/*				function fillit(element, index, array)
-				{
-					element.value = fillval;
-				}
-				suppliers.forEach(fillit());*/
+
 				for(var i = 0; i < bw; i++)
 				{
 					for (var j = 0; j < supp; j++)
@@ -127,27 +127,8 @@
 				inputbox[i].value = "";
 			}
 		}
-		function ewayadd()
-		{	var rows = [10,20,30,40,50,100];
-
-			for (var it = 0; it < 5; it++)
-			{	var stindex = "btsann".concat(rows[it]);
-				var ewayindex = "wayann".concat(rows[it]);
-				var prindex = "btpann".concat(rows[it]);
-				var stotindex = "btstot".concat(rows[it]);
-				var ptotindex = "btptot".concat(rows[it]);
-				var btsann = document.getElementByid(stindex).value;
-				var btpann = document.getElementByid(prindex).value;
-				var wayann = document.getElementByid(ewayindex).value;
-				document.getElementByid("btstot10").value = "asdf";
-				var y = document.getElementByid(ptotindex);
-				//
-				y.innerHTML = (btpann + wayann);
-			}
-		
-		}
-
-		function cellhighlight(x)
+		//functions to highlight cells in neighbouring tables; these tables no longer exist, but functions may be altered and recycled
+		/*function cellhighlight(x)
 		{
 			//document.getElementById("btstot10").innerHTML = x.id;
 			if ((x.id).slice(-1) == 1)
@@ -171,7 +152,7 @@
 				var cellid = (x.id).slice(0,-1) + 1;
 			}
 			document.getElementById(cellid).style.border="1px solid black";
-		}
+		}*/
 		</script>
 
 	</body>

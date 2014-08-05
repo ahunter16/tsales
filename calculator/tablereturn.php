@@ -20,7 +20,7 @@ function Tablegenerate ($serviceid, $servicename)
 
 
 	echo 												//CHANGE: zebra stripe the tables
-	'<table><tr>
+	'<table class = "entry"><tr>
 	<th class = "side">Supplier</th>';
 	foreach ($servicearray as $id => $name)
 	{	
@@ -125,6 +125,7 @@ function Tablegenerate ($serviceid, $servicename)
 
 		};
 			echo '</table><br>';
+			
 }
 function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths, Years, suppliers THROUGHOUT
 {	$bwidths = array(10,20,30,40,50,100);
@@ -135,7 +136,7 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 	global $quotearray;
 
 	foreach ($marginindex as $m)
-	{echo '<br><table><tr>
+	{echo '<br><table class = "margins"><tr>
 			<th class = "side">'.$margins[$m].'</th>';
 			foreach ($servicearray as $id => $name)
 			{
@@ -222,21 +223,25 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 								$sub1 = $quotearray[$bdw][$s][$y1];
 								if ($s != "i5")
 								{
-									$rentmargin = $sub1 - $_POST[$s."ann".$bdw];
+									$rentmargin = ($sub1 - $_POST[$s."ann".$bdw]);
+									$cost = ($_POST[$s."ann".$bdw]);
 								}
 								elseif (isset($_POST["i4ann".$bdw]) && isset($_POST['i4ins'.$bdw]))
 								{
 									$rentmargin = ($sub1 - $_POST["i4ann".$bdw]) - $_POST['i4ins'.$bdw];
+									$cost = ($_POST["i4ann".$bdw]-$_POST['i4ins'.$bdw]);
 								}
 								else 
 								{
 									$rentmargin = 0;
+									$cost = 0;
 								}
 							} 
 							else 
 							{
 								$sub1 = '  --';
 								$rentmargin = 0;
+								$cost = 0;
 							}
 						}
 						else
@@ -244,15 +249,18 @@ function table_populate($serviceid, $servicename)		//CHANGE: variable bandwidths
 						
 							$sub1 = ' ---';
 							$rentmargin = 0;
+							$cost = 0;
 						}	
 					}
 					else 
 					{
 						$sub1 = '  ----';
 						$rentmargin = 0;
+						$cost = 0;
 					}
 					echo'<td class = "'.$s.'i'.$ys.'">&pound<input type = "text" name = "'.$s.$y1.$bdw.'" value = "'.$sub1.'" class = "bg'.$colno.'" ></td>'."\n";
-					echo '<input type = "hidden" value = "'.$rentmargin.'" name = '.$s.'mar'.$bdw.'>';
+					echo '<input type = "hidden" value = "'.$rentmargin.'" name = '.$s.$y1.'mar'.$bdw.'>';
+					echo '<input type = "hidden" value = "'.$cost.'" name = '.$s.$y1.'cost'.$bdw.'>';
 					if ($colno == 0)
 					{
 						$colno = 1;
