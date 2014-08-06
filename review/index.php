@@ -2,6 +2,9 @@
 include "../dblogin.php";
 include "validate.php";
 
+$staffpermission = array(8 => "Andy Neve", 5 => "Neil Christie");
+$staffid = 8;
+
 if (!isset($_POST['statusid']) && !isset($_POST['hiddenstatusid']))
 {
 	$status = "WHERE intquotestatusid = 10";
@@ -70,58 +73,126 @@ while ($temp = $stmt->fetch())
 }
 
 
-function reviewdefine($statusquote, $status)
+function reviewdefine($statusquote, $option)
 {
 
-	echo '<table><tr>';
+	global $staffid;
+	echo '<input type = "hidden" value = "'.$staffid.'" name = "staffid">';
+
+	$revtable = '<table><tr>';
 	foreach (array_keys($statusquote[0]) as $key)
 	{
-		echo '<th>'.$key.'</th>';
+		$revtable .= '<th>'.$key.'</th>';
 	}
-	echo '</tr>';
+	$revtable .= '</tr>';
 	foreach ($statusquote as $index => $sq)
-	{	echo '<tr>';
+	{	$revtable .= '<tr>';
 		foreach ($sq as $field)
 		{
-			echo '<td name ="'.$index.$sq['id'].'" >'.$field.'</td>'."\n";
+			$revtable .= '<td name ="'.$index.$sq['id'].'" >'.$field.'</td>'."\n";
 		}
-		if ($status == 20)
+		global $staffpermission;
+		
+		if ($option == 10)
 		{
-			echo '<td><button type = "submit" value = "'.$sq['id'].'" name = "val" >Validate</button></td>'."\n";
-			echo '<td><button type = "submit" value = "'.$sq['id'].'" name = "revert" >Deny Validation</button></td>'."\n";
+			$tut = "Quotes which are either in the process of being built or have been denied validation and may need to be tweaked";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "edit" >Edit</button></td>'."\n";			
 		}
-		if ($status ==10 || $status ==20 || $status ==30 || $status ==40 )
+		if ($option == 20 && array_key_exists($staffid, $staffpermission))
 		{
-			echo '<td><button type = "submit" value = "'.$sq['id'].'" name = "cancel" >Cancel</button></td>'."\n";
+			$tut = "Quotes that have been submitted for validation but not reviewed yet";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "val" >Validate</button></td>'."\n";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "deny" >Deny Validation</button></td>'."\n";
 		}
-		echo '<td><button type = "submit" value = "'.$sq['id'].'" name = "display">Show Pricing</button></tr>'."\n";
+		if ($option == 30)
+		{
+			$tut = "Quotes that have been validated; click \"Export\" to generate a Word doc containing the prices";
+			$revtable .= '<td><button id = "export'.$sq['id'].'" value = "'.$sq['id'].'" name = "export" onclick = "expform(this)">Export</button></td>'."\n";
+		}
+		if ($option == 40)
+		{
+			$tut = "Quotes that have been sent off to clients and are currently being reviewed. Click \"Accepted\" if a quote has been accepted by the client";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "accept" >Accepted</button></td>'."\n";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "reject" >Rejected</button></td>'."\n";
+		}
+		if ($option == 50)
+		{
+			$tut = "Quotes that have been accepted by clients";
+		}
+		if ($option == 60)
+		{
+			$tut = "Quotes that have been rejected by clients";
+		}
+		if ($option == 70)
+		{
+			$tut = "Quotes that have been cancelled";
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "delete" >Delete</button></td>'."\n";
+		}
+		if ($option ==10 || $option ==20 || $option ==30 || $option ==40 )
+		{
+			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "cancel" >Cancel</button></td>'."\n";
+		}
+
+
+		$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "display">Show Pricing</button>'."\n";
+		$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "history">Show History</button></tr>'."\n";
 	}
 	global $option;
 
-	echo '<input type = "hidden" name = "hiddenstatusid" value ="'.$option.'">'."\n";
+	$revtable .= '<input type = "hidden" name = "hiddenstatusid" value ="'.$option.'">'."\n";
+
+	$revtable .='</table>';
+	echo '<p style = "font-size: 1.2em">'.$tut.'</p><br>';
+	echo $revtable;
+
+
+	
 
 	if (isset($_POST['display']))
 	{
-		/*echo '<label><strong>Quote Pricing:</strong></label>';*/
+		/*$revtable .= '<label><strong>Quote Pricing:</strong></label>';*/
 		viewquote($_POST['display']);
 	}
 
 	if (isset($_POST['val']))
 	{
-		validate($_POST['val']);
+		statusupdate($_POST['val'], 30);
+		historyupdate($_POST['val'], 30, $staffid);
 	}
 
-	if (isset($_POST['revert']))
+	if (isset($_POST['deny']))
 	{
-		revert($_POST['revert']);
+		statusupdate($_POST['deny'], 10);
+		historyupdate($_POST['deny'], 10, $staffid);
 	}
 
 	if (isset($_POST['cancel']))
 	{
-		cancel($_POST['cancel']);
+		statusupdate($_POST['cancel'], 70);
+		historyupdate($_POST['cancel'], 70, $staffid);
 	}
 
-	echo'</table>';
+	if (isset($_POST['delete']))
+	{
+		remove($_POST['delete']);
+	}
+
+	if (isset($_POST['accept']))
+	{
+		statusupdate($_POST['accept'], 50);
+		historyupdate($_POST['accept'], 50, $staffid);
+	}
+
+	if (isset($_POST['reject']))
+		{
+			statusupdate($_POST['reject'], 60);
+			historyupdate($_POST['reject'], 60, $staffid);
+		}
+
+	if (isset($_POST['history']))
+	{
+		showhistory($_POST['history']);
+	}
 
 }
 //print_r($_POST);

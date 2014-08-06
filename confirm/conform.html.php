@@ -29,6 +29,7 @@
 						<input type = "hidden" name = "templateid" value ="'.$_POST['templateid'].'" >
 						<input type = "hidden" name = "save" value = "Save"><br>
 						<input id = "reviewbutton" type = "submit" value = "Submit for Review" name = "reviewsub">';
+						echo $_POST['templateid']."BLAH";
 
 
 			}
@@ -40,8 +41,8 @@
 			elseif (!empty($_REQUEST['reviewsub']))
 			{
 				echo "Quote submitted for review.<br>";
-				echo "<a href = ../../review>Review Quotes</a><br>";
-				echo "<a href = ../>Back</a> to Calculator";
+				echo "<a href = ../review>Review Quotes</a><br>";
+				echo "<a href = ../calculator>Back</a> to Calculator";
 
 			}
 		 ?>

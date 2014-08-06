@@ -193,7 +193,7 @@ if (empty($_REQUEST['save']))
 
 	include 'form.html.php';
 }
-else 
+/*else 
 {
-	include 'confirmbackup/conindex.php';
-}
+	include '../confirm/conindex.php';
+}*/

@@ -25,7 +25,7 @@
 			<input type = "hidden" name = "accountval" value = "" id = "accountval">
 		</form>
 		<br>
-		<form action = "" method = "post">
+		<form action = "../confirm/conindex.php" method = "post">
 		<input type = "submit" value = "Save" name = "save"> <br><br>
 
 
@@ -47,9 +47,9 @@
 
 		echo'<div id = "extrainfo">
 			<label id = "postlabel" for = "postcode"> Postcode: </label> <br>
-			<input type = "text" name = "postcode" id = "postcode"value = "'.$postcodeval.'"onblur = "copyvalues(this)"><br><br>
+			<input type = "text" name = "postcode" id = "postcode"value = "'.$postcodeval.'" onblur = "copyvalues(this)"><br><br>
 			<label id = "ticketlabel" for ="ticket">Ticket Number: </label><br>
-			<input type = "text" name = "ticket" id = "ticket"value = "'.$ticketval.'"onblur = "copyvalues(this)"><br><br>
+			<input type = "text" name = "ticket" id = "ticket"value = "'.$ticketval.'" onblur = "copyvalues(this)"><br><br>
 		</div>
 		<div id = "extrainfo2">
 

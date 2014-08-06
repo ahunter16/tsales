@@ -10,10 +10,11 @@ $staffid = 21;
 if (!empty($_REQUEST['reviewsub']))
 {
 	//print_r($_REQUEST);
-	include 'confirmbackup/submission.php';
+	$oldpath = get_include_path();
+	set_include_path('C:\xampp\htdocs\tsales');
+	include 'confirm/submission.php';
+	set_include_path($oldpath);
 }
-
-
 
 try 		
 {					
@@ -70,7 +71,7 @@ while ($temp = $stmt->fetch())
 $accounts = array_combine($accid, $accname);
 //print_r($_GET);
 
-
+echo $_POST['templateid']."BLAH";
 
 include 'contablereturn.php';
 

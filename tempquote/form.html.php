@@ -41,7 +41,7 @@
 		<!-- <p id = "pform">Hi</p> -->
 		<br>
 	 	<br>
-	 	<form type = "submit" method = "post">
+	 	<form action = "../confirm/conindex.php" method = "post">
  		<input type = "submit" value = "Save" name = "save"> <br><br>
 		<label class = "martable1t"><strong>Prices Using Test Base Values:</strong></label><br><br>
 
@@ -67,8 +67,11 @@
 
 		//print_r($testarray);
 		$x = 1;
-		table_populate($serviceid, $servicename, $testarray, $x);?>
-		<input type = "hidden" value = "" name = "templateid"><!-- echo $basevals['id']; -->
+		table_populate($serviceid, $servicename, $testarray, $x);
+		
+		?>
+		<input type = "hidden" name = "templateid" value = <?php echo $lasttemplate['id'];?> >
+		<!-- <input type = "hidden" value = "" name = "templateid"> -->
 		</form>
 		<script>
 

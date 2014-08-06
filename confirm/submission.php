@@ -1,7 +1,8 @@
 <?php
+echo "INCLUDED";
 if (!empty($_REQUEST['reviewsub']))
-{   error_reporting(E_ALL);
-    print_r($_REQUEST['account']);
+{   
+    //print_r($_POST);
 	try 
 	{
 		$sql = 'INSERT INTO sales2.fbr_quote SET '.'
@@ -30,6 +31,8 @@ if (!empty($_REQUEST['reviewsub']))
         include'output.html.php';
         exit();
     }
+
+
 
     try 
     {

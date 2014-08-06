@@ -37,28 +37,27 @@ include 'formula.php';
 
 
 	try 			
-		{					
-			
-			$servicequery = 'SELECT id, strfibreservice FROM sales2.fbr_service';
-			$stmt = $pdo2->query($servicequery);
-			$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	{					
+		
+		$servicequery = 'SELECT id, strfibreservice FROM sales2.fbr_service';
+		$stmt = $pdo2->query($servicequery);
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+	}
 
-
-
-		}
-		catch (PDOException $e)
-		{
-	        $output = 'Error getting pricing info:' . $e->getMessage();
-	        include'output.html.php';
-	        exit();
-	    }
+	catch (PDOException $e)
+	{
+        $output = 'Error getting pricing info:' . $e->getMessage();
+        include'output.html.php';
+        exit();
+    }
+    
 	$serviceid = array();
-	    while ($temp = $stmt->fetch())
-	    {	
+    while ($temp = $stmt->fetch())
+    {	
 
-			$serviceid[] = 'i'.$temp['id'];
-			$servicename[] = $temp['strfibreservice'];
-		}
+		$serviceid[] = 'i'.$temp['id'];
+		$servicename[] = $temp['strfibreservice'];
+	}
 
 	//print_r($servicename);
 
@@ -191,11 +190,33 @@ include 'formula.php';
 	}
 
 
-	include 'form.html.php';
+	
+	 try 			
+			{					
+				$modbasequery = 'SELECT id FROM sales2.fbr_template ORDER BY id DESC LIMIT 1';
+				$stmt = $pdo2->query($modbasequery);
+				$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			}
+
+			catch (PDOException $e)
+			{
+			    $output = 'Error getting pricing info:' . $e->getMessage();
+			    include'output.html.php';
+			    exit();
+			}
+
+			while ($temps = $stmt->fetch())
+			{
+				$lasttemplate = $temps;
+			}
+			include 'form.html.php';
 }
 else
 {
-	include "../calculator/confirmbackup/conindex.php";
+	$oldpath = get_include_path();
+	set_include_path('C:\xampp\htdocs\tsales\calculator');
+	include "confirm\conindex.php";
+	set_include_path($oldpath);
 } 
 /*echo "<br>total:";
 print_r($quotearray);*/

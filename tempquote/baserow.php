@@ -8,7 +8,7 @@ function basevals()
 
 	$modbasevals = array();
 
-	try 			//CHANGE: to use new database; change QUERY and following statements for shorthands
+	try 			
 	{					
 		$modbasequery = 'SELECT * FROM sales2.fbr_template WHERE booldefault = 1';
 		$stmt = $pdo2->query($modbasequery);
@@ -55,7 +55,7 @@ function basevals()
 		echo'<tr>';
 		$tablerows = '';
 
-		$altered = 0;								//CHANGE: update names of base value columns
+		$altered = 0;							
 		foreach ($tablekeys as $key)
 			
 			{	
@@ -145,6 +145,7 @@ function basevals()
 					$baseinsert .= $keys.' = :'.$keys.', ';
 
 				}
+
 				$baseinsert = substr($baseinsert, 0, -2);
 
 				$s = $pdo2 -> prepare($baseinsert);
@@ -163,6 +164,11 @@ function basevals()
 		        echo $baseinsert;
 		        exit();
 		    }
+
+
+		   
+
+
 			}
 		
 		else 

@@ -2,7 +2,7 @@
 
 
 
-function viewquote($quoteid)
+function viewquote($quoteid)	//echoes HTML table containing all quotes with a given status id ($quoteid)
 {
 	global $pdo2;
 	try
@@ -14,7 +14,7 @@ function viewquote($quoteid)
 
 	catch(PDOException $e)
 	{
-		$output = 'Error fetching quote info: '. $e->getMessge();
+		$output = 'Error fetching quote info: '. $e->getMessage();
 		include "output.html.php";
 		exit();
 	}
@@ -24,16 +24,19 @@ function viewquote($quoteid)
 		$displayed[] = $temp;
 	}
 	//print_r($displayed);
-	echo '<table id = "quoteview">'."\n";
+	echo '<p id = "quotelabel"><strong>Quote Pricing:</strong></p> 
+	<table id = "quoteview">'."\n";
 	if (!empty($displayed) && isset($displayed))
-	{	foreach ($displayed as $displayrecord)
+{		echo '<tr>';
+		foreach (array_keys($displayed[0]) as $key)
 		{
-			echo '<tr>';
-			foreach (array_keys($displayrecord) as $key)
-			{
-				echo '<th>'.$key.'</th>'."\n";
-			}
-			echo '</tr><tr>'."\n";
+			echo '<th>'.$key.'</th>'."\n";
+		}
+		echo '</tr>';
+		foreach ($displayed as $displayrecord)
+		{
+
+			echo '<tr>'."\n";
 			foreach ($displayrecord as $value)
 			{
 				echo '<td>'.$value.'</td>'."\n"; 
@@ -46,64 +49,109 @@ function viewquote($quoteid)
 		echo 'Error: matching quote pricing not found.'."\n";
 	}
 	echo '</table>';
-}
-
-function validate($id)
-{
-	global $pdo2;
-
-	try 
-	{
-		$sql = 'UPDATE sales2.fbr_quote SET intquotestatusid = 30 WHERE id ='.$id;
-		$s = $pdo2 -> prepare($sql);
-		$s-> execute();
-	}
-
-	catch(PDOException $e)
-	{
-		$output = 'Error validating quote: '. $e->getMessge();
-		include "output.html.php";
-		exit();
-	}
-	
 
 }
 
-function revert($id)
+
+
+function historyupdate($quote, $status, $staff)		//adds a record to fbr_quote_history to reflect any change in status for a quote
 {
 	global $pdo2;
-
 	try
 	{
-		$sql = 'UPDATE sales2.fbr_quote SET intquotestatusid = 10 WHERE id = '.$id;
+		$sql = 'INSERT INTO sales2.fbr_quote_history SET'.'
+		intquoteid = :quoteid,
+		intstaffid = :staffid,
+		intquotestatusid = :statusid';
+
+		$s = $pdo2 -> prepare($sql);
+
+		$s-> bindValue(':quoteid', $quote);
+		$s-> bindValue(':staffid', $staff);
+		$s-> bindValue(':statusid', $status);
+
+		$s->execute();
+
+	}
+
+	catch (PDOException $e)
+	{
+        $output = 'Error inserting into quote history' . $e->getMessage();
+
+        include'output.html.php';
+        exit();
+    }
+}
+
+
+
+function statusupdate($quote, $option)		//updates a given quote record with a new status
+{
+	global $pdo2;
+	try
+	{
+		$sql = 'UPDATE sales2.fbr_quote SET intquotestatusid = '.$option.' WHERE id = '.$quote;
 		$s = $pdo2 -> prepare($sql);
 		$s-> execute();
 	}
 
 	catch(PDOException $e)
 	{
-		$output = 'Error reverting quote: '. $e->getMessge();
+		$output = 'Error changing quote status: '. $e->getMessage();
 		include "output.html.php";
 		exit();
 	}
 }
 
-function cancel($id)
+function showhistory($quote)
 {
 	global $pdo2;
-
 	try
 	{
-		$sql = 'UPDATE sales2.fbr_quote SET intquotestatusid = 70 WHERE id = '.$id;
-		$s = $pdo2 -> prepare($sql);
-		$s-> execute();
+		//LEFT OUTER JOIN cnv_staff ON s.intstaffid=c.intstaffid 
+		$sql = 'SELECT s.intquoteid, s.datchange, c.strsurname,  c.strfirstname 
+		FROM (sales2.fbr_quote_history s, sales2.cnv_staff c) 
+		
+		WHERE s.intstaffid=c.intstaffid AND s.intquoteid = '.$quote;
+		$stmt = $pdo2->query($sql);
+		$result = $stmt -> setFetchMode(PDO::FETCH_ASSOC);
 	}
 
 	catch(PDOException $e)
 	{
-		$output = 'Error cancelling quote: '. $e->getMessge();
+		$output = 'Error fetching quote history: '. $e->getMessage();
+		echo $sql;
 		include "output.html.php";
 		exit();
 	}
 
+	while($temp = $stmt->fetch())
+	{
+		$history[] = $temp;
+	}
+
+	echo '<p id = "historylabel"><strong>Quote History:</strong></p> <br>
+	<table id = "historyview">'."\n";
+	if (!empty($history) && isset($history))
+	{	echo '<tr>';
+		foreach (array_keys($history[0]) as $key)
+		{
+			echo '<th>'.$key.'</th>'."\n";
+		}
+		foreach ($history as $hist)
+		{
+
+			echo '<tr>'."\n";
+			foreach ($hist as $value)
+			{
+				echo '<td>'.$value.'</td>'."\n"; 
+			}
+			echo'</tr>';
+		}
+	}
+	else 
+	{
+		echo 'Error: Histort not found.'."\n";
+	}
+	echo '</table>';
 }
