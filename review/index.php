@@ -126,7 +126,10 @@ function reviewdefine($statusquote, $option)
 		if ($option == 70)
 		{
 			$tut = "Quotes that have been cancelled";
-			$revtable .= '<td><button type = "submit" value = "'.$sq['id'].'" name = "delete" >Delete</button></td>'."\n";
+		}
+		if (empty($option))
+		{
+			$tut = "All Quotes";
 		}
 		if ($option ==10 || $option ==20 || $option ==30 || $option ==40 )
 		{
@@ -146,7 +149,7 @@ function reviewdefine($statusquote, $option)
 	echo $revtable;
 
 
-	
+
 
 	if (isset($_POST['display']))
 	{

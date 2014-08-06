@@ -6,7 +6,7 @@ function accountselect()
 	global $accounts;
 	foreach ($accounts as $id => $aname)
 	{
-		echo '<option value = "'.$id.'">'.$aname.'</option>';
+		echo '<option id = "o'.$id.'" value = "'.$id.'">'.$aname.'</option>';
 	}
 }
 

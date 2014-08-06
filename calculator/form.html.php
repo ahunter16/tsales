@@ -58,7 +58,7 @@
 
 
 			<label>Account:</label><br>
-			<select id = "account" name = "account">
+			<select id = "account" name = "account" onblur = "copyvalues(this)">
 				<?php accountselect(); ?>
 			</select>
 		</div>
@@ -85,7 +85,8 @@
 			var name = x.name.concat("val");
 			if (name == "accountval")
 			{
-				document.getElementById(name).value = "blah";
+				var intid = x.options[x.selectedIndex].value;
+				document.getElementById(name).value = intid;
 			}
 			else 
 			{
